@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Community - HTML Learning Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+</head>
+<body class="bg-blue-50 min-h-screen flex flex-col">
+    <nav class="bg-white border-b border-blue-200">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <a href="./frontendpage.html" class="flex items-center text-blue-800 hover:text-blue-600">
+                        <i class="fas fa-arrow-left text-lg mr-4"></i>
+                        <span class="text-xl font-semibold">Dashboard</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-blue-600 hover:text-blue-800">
+                        <i class="fas fa-bell text-xl"></i>
+                    </a>
+                    <button id="profile-btn" class="!rounded-button bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700">
+                        <i class="fas fa-user-circle mr-2"></i><span id="user-name">My Profile</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex-1 flex flex-col md:flex-row">
+        <!-- Left sidebar -->
+        <div class="w-full md:w-64 bg-white border-r border-gray-200 md:flex-shrink-0">
+            <div class="p-4">
+                <h2 class="text-lg font-semibold mb-4">Channels</h2>
+                <div class="space-y-1">
+                    <button class="!rounded-button w-full text-left px-4 py-2 bg-blue-100 text-blue-800 hover:bg-blue-200 flex items-center" data-channel="general">
+                        <i class="fas fa-hashtag mr-2"></i>general
+                    </button>
+                    <button class="!rounded-button w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center" data-channel="html-help">
+                        <i class="fas fa-hashtag mr-2"></i>html-help
+                    </button>
+                    <button class="!rounded-button w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center" data-channel="css-discussions">
+                        <i class="fas fa-hashtag mr-2"></i>css-discussions
+                    </button>
+                    <button class="!rounded-button w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center" data-channel="projects">
+                        <i class="fas fa-hashtag mr-2"></i>projects
+                    </button>
+                </div>
+                
+                <h2 class="text-lg font-semibold mt-8 mb-4">Direct Messages</h2>
+                <div class="space-y-1">
+                    <button class="!rounded-button w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center">
+                        <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                        <span>John Doe</span>
+                    </button>
+                    <button class="!rounded-button w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center">
+                        <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                        <span>Jane Smith</span>
+                    </button>
+                    <button class="!rounded-button w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 rounded-full mr-2"></span>
+                        <span>Carlos Rodriguez</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main content -->
+        <div class="flex-1 flex flex-col max-h-screen overflow-hidden">
+            <!-- Chat header -->
+            <div class="bg-white border-b border-gray-200 p-4 chat-header">
+                <div class="flex items-center">
+                    <span class="text-xl font-semibold mr-2">#general</span>
+                    <span class="text-sm text-gray-500">Community discussions</span>
+                </div>
+            </div>
+            
+            <!-- Messages container -->
+            <div id="messages-container" class="flex-1 overflow-y-auto p-4 space-y-4">
+                <!-- Messages will be loaded here dynamically -->
+                <div class="flex items-center justify-center h-full">
+                    <div class="text-center">
+                        <div class="spinner-border inline-block w-8 h-8 border-4 rounded-full text-blue-600 animate-spin mb-4" role="status"></div>
+                        <p class="text-gray-500">Loading messages...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Message input -->
+            <div class="bg-white border-t border-gray-200 p-4">
+                <form id="message-form" class="flex space-x-2">
+                    <input 
+                        type="text" 
+                        id="message-input" 
+                        class="flex-1 !rounded-button border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                        placeholder="Type your message here..."
+                        required
+                    />
+                    <button 
+                        type="submit" 
+                        class="!rounded-button bg-blue-600 text-white px-6 py-2 font-medium hover:bg-blue-700 transition-colors"
+                    >
+                        <i class="fas fa-paper-plane mr-2"></i>Send
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Right sidebar -->
+        <div class="hidden lg:block w-64 bg-white border-l border-gray-200 flex-shrink-0">
+            <div class="p-4">
+                <h2 class="text-lg font-semibold mb-4">Online Members</h2>
+                <div class="space-y-2">
+                    <div class="flex items-center">
+                        <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                        <span>John Doe</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                        <span>Jane Smith</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                        <span>You</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 rounded-full mr-2"></span>
+                        <span>Carlos Rodriguez</span>
+                    </div>
+                </div>
+
+                <h2 class="text-lg font-semibold mt-8 mb-4">Resources</h2>
+                <div class="space-y-2">
+                    <a href="#" class="text-blue-600 hover:underline flex items-center">
+                        <i class="fas fa-file-pdf mr-2"></i>HTML Cheatsheet
+                    </a>
+                    <a href="#" class="text-blue-600 hover:underline flex items-center">
+                        <i class="fas fa-link mr-2"></i>MDN Documentation
+                    </a>
+                    <a href="#" class="text-blue-600 hover:underline flex items-center">
+                        <i class="fas fa-code mr-2"></i>Code Examples
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyCf0Z27yRLiE1pRPe4kDJPDvaV_dLlkl84",
+                authDomain: "qwedsfvb-6002e.firebaseapp.com",
+                projectId: "qwedsfvb-6002e",
+                storageBucket: "qwedsfvb-6002e.firebasestorage.app",
+                messagingSenderId: "970311760029",
+                appId: "1:970311760029:web:50b081a7f98e34a41c7c74",
+                measurementId: "G-RJHDRBZFF8"
+            };
+            
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            
+            const db = firebase.firestore();
+            let currentChannel = "general"; // Default channel
+            const messagesContainer = document.getElementById('messages-container');
+            const messageForm = document.getElementById('message-form');
+            const messageInput = document.getElementById('message-input');
+            const channelButtons = document.querySelectorAll('[data-channel]');
+            const channelTitle = document.querySelector('.chat-header .text-xl');
+            const channelDescription = document.querySelector('.chat-header .text-sm');
+            
+            // Add data-channel attributes to channel buttons
+            const channelButtonsHTML = document.querySelectorAll('.space-y-1 button');
+            channelButtonsHTML[0].setAttribute('data-channel', 'general');
+            channelButtonsHTML[1].setAttribute('data-channel', 'html-help');
+            channelButtonsHTML[2].setAttribute('data-channel', 'css-discussions');
+            channelButtonsHTML[3].setAttribute('data-channel', 'projects');
+            
+            // Add chat-header class to the header for selecting
+            const chatHeader = document.querySelector('.bg-white.border-b.border-gray-200.p-4');
+            chatHeader.classList.add('chat-header');
+            
+            // Channel descriptions
+            const channelDescriptions = {
+                "general": "Community discussions",
+                "html-help": "Get help with HTML problems",
+                "css-discussions": "Talk about CSS techniques",
+                "projects": "Share and discuss web projects"
+            };
+            
+            // Generate a random user ID and name if not set
+            let userId = localStorage.getItem('userId');
+            let userName = localStorage.getItem('userName');
+            
+            if (!userId) {
+                userId = 'user_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('userId', userId);
+            }
+            
+            if (!userName) {
+                // Generate a random name
+                const names = ['Alex', 'Jamie', 'Jordan', 'Taylor', 'Casey', 'Morgan', 'Sam', 'Avery'];
+                userName = names[Math.floor(Math.random() * names.length)] + Math.floor(Math.random() * 1000);
+                localStorage.setItem('userName', userName);
+            }
+            
+            // Update the profile button with the user name
+            document.getElementById('user-name').textContent = userName;
+            
+            // Function to format timestamp
+            function formatTimestamp(timestamp) {
+                if (!timestamp) return "Just now";
+                
+                const date = timestamp.toDate();
+                const now = new Date();
+                
+                // If the message is from today, just show the time
+                if (date.toDateString() === now.toDateString()) {
+                    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                }
+                
+                // Otherwise show the date and time
+                return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            }
+            
+            // Function to render a message
+            function renderMessage(message) {
+                const isCurrentUser = message.userId === userId;
+                const messageDiv = document.createElement('div');
+                
+                messageDiv.className = isCurrentUser ? 
+                    'flex flex-col items-end mb-4' : 
+                    'flex flex-col items-start mb-4';
+                
+                messageDiv.innerHTML = `
+                    <div class="flex items-center mb-1">
+                        <span class="font-medium text-sm ${isCurrentUser ? 'text-blue-600' : 'text-gray-700'}">${message.userName}</span>
+                        <span class="text-xs text-gray-500 ml-2">${formatTimestamp(message.timestamp)}</span>
+                    </div>
+                    <div class="max-w-xs md:max-w-md px-4 py-2 rounded-lg ${
+                        isCurrentUser ? 
+                        'bg-blue-600 text-white' : 
+                        'bg-gray-200 text-gray-700'
+                    }">
+                        ${message.text}
+                    </div>
+                `;
+                
+                return messageDiv;
+            }
+            
+            // Switch to a different channel
+            function switchChannel(channelName) {
+                // Update the UI
+                document.querySelectorAll('[data-channel]').forEach(btn => {
+                    if (btn.getAttribute('data-channel') === channelName) {
+                        btn.classList.remove('text-gray-700', 'hover:bg-gray-100');
+                        btn.classList.add('bg-blue-100', 'text-blue-800', 'hover:bg-blue-200');
+                    } else {
+                        btn.classList.remove('bg-blue-100', 'text-blue-800', 'hover:bg-blue-200');
+                        btn.classList.add('text-gray-700', 'hover:bg-gray-100');
+                    }
+                });
+                
+                // Update header
+                channelTitle.textContent = "#" + channelName;
+                channelDescription.textContent = channelDescriptions[channelName] || "Channel discussions";
+                
+                // Update current channel and load messages
+                currentChannel = channelName;
+                loadMessages();
+            }
+            
+            // Listen for new messages in the current channel
+            function loadMessages() {
+                messagesContainer.innerHTML = '<div class="flex items-center justify-center h-full"><div class="text-center"><div class="spinner-border inline-block w-8 h-8 border-4 rounded-full text-blue-600 animate-spin mb-4" role="status"></div><p class="text-gray-500">Loading messages...</p></div></div>';
+                
+                db.collection('channels').doc(currentChannel).collection('messages')
+                    .orderBy('timestamp', 'asc')
+                    .limit(100)
+                    .onSnapshot((snapshot) => {
+                        messagesContainer.innerHTML = '';
+                        
+                        if (snapshot.empty) {
+                            messagesContainer.innerHTML = '<div class="text-center py-8 text-gray-500">No messages yet. Be the first to send a message!</div>';
+                            return;
+                        }
+                        
+                        snapshot.docs.forEach(doc => {
+                            const message = doc.data();
+                            const messageDiv = renderMessage(message);
+                            messagesContainer.appendChild(messageDiv);
+                        });
+                        
+                        // Scroll to the bottom
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    }, (error) => {
+                        console.error("Error loading messages:", error);
+                        messagesContainer.innerHTML = '<div class="text-center py-8 text-red-500">Error loading messages. Please try again later.</div>';
+                    });
+            }
+            
+            // Send a new message
+            messageForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const text = messageInput.value.trim();
+                if (!text) return;
+                
+                // Disable send button during sending
+                const sendButton = messageForm.querySelector('button[type="submit"]');
+                sendButton.disabled = true;
+                sendButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
+                
+                // Add message to Firestore
+                db.collection('channels').doc(currentChannel).collection('messages').add({
+                    userId: userId,
+                    userName: userName,
+                    text: text,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                })
+                .then(() => {
+                    messageInput.value = '';
+                    sendButton.disabled = false;
+                    sendButton.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Send';
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                })
+                .catch(error => {
+                    console.error('Error sending message:', error);
+                    alert('Failed to send message. Please try again.');
+                    sendButton.disabled = false;
+                    sendButton.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Send';
+                });
+            });
+            
+            // Add channel switching functionality
+            document.querySelectorAll('[data-channel]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const channelName = btn.getAttribute('data-channel');
+                    switchChannel(channelName);
+                });
+            });
+            
+            // Direct message functionality
+            document.querySelectorAll('.space-y-1:nth-of-type(2) button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const userName = btn.querySelector('span:nth-child(2)').textContent;
+                    alert(`Direct messaging ${userName} is coming soon!`);
+                });
+            });
+            
+            // Initialize with general channel
+            switchChannel('general');
+            
+            // Allow user to change their name
+            document.getElementById('profile-btn').addEventListener('click', () => {
+                const newName = prompt('Enter your display name:', userName);
+                if (newName && newName.trim()) {
+                    userName = newName.trim();
+                    localStorage.setItem('userName', userName);
+                    document.getElementById('user-name').textContent = userName;
+                }
+            });
+            
+            // Handle notification bell
+            document.querySelector('a[href="#"]').addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Notifications coming soon!');
+            });
+            
+            // Handle resource links
+            document.querySelectorAll('.space-y-2 a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const resource = link.textContent.trim();
+                    alert(`${resource} will be available soon!`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
