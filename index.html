@@ -1,29 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Catalog | Learn Programming</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,    git config user.name
-    git config user.email    git config user.name
-    git config user.emailcontainer-queries@0.1.1"></script>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Mentneo Learning Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
     <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <!-- Cloudinary Upload Widget -->
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
 </head>
-<body class="bg-gray-50 min-h-screen">
-    <nav class="bg-white border-b border-gray-200">
+<body class="bg-blue-50 min-h-screen">
+    <nav class="bg-white border-b border-blue-200">
         <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex">
-                    <div class="flex-shrink-0 flex items-center">
-                        <img class="h-8 w-auto" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Logo">
-                    </div>
+                    <a href="#" class="flex items-center">
+                        <img class="h-8 w-auto mr-2" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Mentneo" />
+                        <span class="text-xl font-semibold text-blue-800">Mentneo</span>
+                    </a>
                 </div>
-                <div class="flex items-center">
-                    <div class="hidden sm:ml-6 sm:flex sm:items-center">
-                        <button class="!rounded-button bg-custom hover:bg-indigo-700 text-white px-4 py-2 text-sm font-medium transition-colors duration-200">Login</button>
+                <div class="flex items-center space-x-4">
+                    <a href="./community.html" class="text-blue-800 hover:text-blue-600 font-medium flex items-center">
+                        <i class="fas fa-comments mr-2"></i>
+                        Community
+                    </a>
+                    <div class="relative" id="user-menu-container">
+                        <button class="!rounded-button bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700 flex items-center" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                            <i class="fas fa-user-circle mr-2"></i>
+                            <span id="user-name">Loading...</span>
+                            <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                        </button>
+                        <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden" id="user-dropdown" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Your Profile</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Settings</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="logout-button" role="menuitem">Sign out</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -32,187 +52,652 @@
 
     <main class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="mb-8">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div class="relative flex-1 max-w-xl">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-search text-gray-400"></i>
-                    </div>
-                    <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:border-custom focus:ring-1 focus:ring-custom" placeholder="Search courses...">
+            <h1 class="text-2xl font-bold text-gray-900 mb-2">My Learning Paths</h1>
+            <p class="text-gray-600">Continue your learning journey or start something new</p>
+        </div>
+
+        <!-- Course Progress Overview -->
+        <div class="mb-8">
+            <div class="bg-white rounded-lg p-4 shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold">Overall Progress</h2>
+                    <span class="text-sm text-gray-500">30% Complete</span>
                 </div>
-                <div class="flex gap-4">
-                    <select class="border border-gray-300 rounded-md bg-white px-3 py-2 text-sm focus:outline-none focus:border-custom focus:ring-1 focus:ring-custom">
-                        <option>All Categories</option>
-                        <option>Programming</option>
-                        <option>Data Science</option>
-                        <option>Web Development</option>
-                    </select>
-                    <select class="border border-gray-300 rounded-md bg-white px-3 py-2 text-sm focus:outline-none focus:border-custom focus:ring-1 focus:ring-custom">
-                        <option>Sort by</option>
-                        <option>Most Popular</option>
-                        <option>Newest</option>
-                        <option>Price: Low to High</option>
-                    </select>
+                <div class="h-2 bg-gray-200 rounded-full">
+                    <div class="h-2 bg-blue-600 rounded-full" style="width: 30%"></div>
                 </div>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Frontend Course -->
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden border border-gray-100">
-                <div class="aspect-w-16 aspect-h-9">
-                    <img src="./images/frontend.png" alt="Frontend Development" class="object-cover">
-                </div>
-                <div class="p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Frontend Development</h3>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-indigo-100 text-custom">
-                            <i class="fab fa-html5 mr-1"></i>HTML
-                        </span>
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-blue-100 text-blue-800">
-                            <i class="fab fa-css3-alt mr-1"></i>CSS
-                        </span>
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-yellow-100 text-yellow-800">
-                            <i class="fab fa-js mr-1"></i>JavaScript
-                        </span>
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-cyan-100 text-cyan-800">
-                            <i class="fab fa-react mr-1"></i>React
-                        </span>
-                    </div>
-                    <div class="mb-4">
-                        <div class="flex justify-between text-sm mb-1">
-                            <span class="text-gray-600">Progress</span>
-                            <span class="text-custom font-medium">60%</span>
-                        </div>
-                        <div class="h-2 bg-gray-200 rounded-full">
-                            <div class="h-2 bg-custom rounded-full" style="width: 60%"></div>
-                        </div>
-                    </div>
-                    <button class="!rounded-button w-full bg-custom hover:bg-indigo-700 text-white px-4 py-2 text-sm font-medium transition-colors duration-200" onclick=" location.href ='./frontendpage.html';">
-                        Continue Learning
-                    </button>
-                </div>
+        <!-- Active Courses Section -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold">Active Courses</h2>
+                <a href="#" class="text-blue-600 hover:text-blue-800 flex items-center text-sm">
+                    View all <i class="fas fa-chevron-right ml-1"></i>
+                </a>
             </div>
 
-            <!-- AI & DS Course -->
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden border border-gray-100">
-                <div class="aspect-w-16 aspect-h-9">
-                    <img src="./images/aids.png" alt="AI & Data Science" class="object-cover">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Course Card 1 - Frontend -->
+                <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2">Frontend Development</h3>
+                            <p class="text-gray-600 mb-4">Learn HTML, CSS, and JavaScript</p>
+                            <div class="mb-3">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="text-gray-500">Progress</span>
+                                    <span class="text-gray-700">60%</span>
+                                </div>
+                                <div class="h-2 bg-gray-200 rounded-full">
+                                    <div class="h-2 bg-blue-600 rounded-full" style="width: 60%"></div>
+                                </div>
+                            </div>
+                            <button class="!rounded-button bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700" onclick="location.href='./frontendpage.html'">
+                                Continue
+                            </button>
+                        </div>
+                        <span class="text-gray-400"><i class="fas fa-code text-2xl"></i></span>
+                    </div>
                 </div>
-                <div class="p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2">AI & Data Science</h3>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-blue-100 text-blue-800">
-                            <i class="fab fa-python mr-1"></i>Python
-                        </span>
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-orange-100 text-orange-800">
-                            <i class="fas fa-brain mr-1"></i>TensorFlow
-                        </span>
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
-                            <i class="fas fa-chart-line mr-1"></i>PyTorch
-                        </span>
-                    </div>
-                    <div class="mb-4">
-                        <div class="flex justify-between text-sm mb-1">
-                            <span class="text-gray-600">Progress</span>
-                            <span class="text-custom font-medium">25%</span>
+
+                <!-- Course Card 2 - Data Science -->
+                <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2">Data Science</h3>
+                            <p class="text-gray-600 mb-4">Python, analytics and visualization</p>
+                            <div class="mb-3">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="text-gray-500">Progress</span>
+                                    <span class="text-gray-700">25%</span>
+                                </div>
+                                <div class="h-2 bg-gray-200 rounded-full">
+                                    <div class="h-2 bg-blue-600 rounded-full" style="width: 25%"></div>
+                                </div>
+                            </div>
+                            <button class="!rounded-button bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700">
+                                Continue
+                            </button>
                         </div>
-                        <div class="h-2 bg-gray-200 rounded-full">
-                            <div class="h-2 bg-custom rounded-full" style="width: 25%"></div>
-                        </div>
+                        <span class="text-gray-400"><i class="fas fa-chart-bar text-2xl"></i></span>
                     </div>
-                    <button class="!rounded-button w-full bg-custom hover:bg-indigo-700 text-white px-4 py-2 text-sm font-medium transition-colors duration-200">
-                        Continue Learning
-                    </button>
+                </div>
+
+                <!-- Course Card 3 - Backend -->
+                <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2">Backend Development</h3>
+                            <p class="text-gray-600 mb-4">Node.js, Express, and MongoDB</p>
+                            <div class="mb-3">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="text-gray-500">Progress</span>
+                                    <span class="text-gray-700">10%</span>
+                                </div>
+                                <div class="h-2 bg-gray-200 rounded-full">
+                                    <div class="h-2 bg-blue-600 rounded-full" style="width: 10%"></div>
+                                </div>
+                            </div>
+                            <button class="!rounded-button bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700">
+                                Continue
+                            </button>
+                        </div>
+                        <span class="text-gray-400"><i class="fas fa-server text-2xl"></i></span>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Full Stack Course -->
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden border border-gray-100">
-                <div class="aspect-w-16 aspect-h-9">
-                    <img src="./images/fullstack.png" alt="Full Stack Development" class="object-cover">
-                </div>
-                <div class="p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Full Stack Development</h3>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
-                            <i class="fab fa-node-js mr-1"></i>Node.js
-                        </span>
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gray-100 text-gray-800">
-                            <i class="fas fa-server mr-1"></i>Express
-                        </span>
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
-                            <i class="fas fa-database mr-1"></i>MongoDB
-                        </span>
-                    </div>
-                    <div class="mb-4">
-                        <div class="flex justify-between text-sm mb-1">
-                            <span class="text-gray-600">Progress</span>
-                            <span class="text-custom font-medium">0%</span>
-                        </div>
-                        <div class="h-2 bg-gray-200 rounded-full">
-                            <div class="h-2 bg-custom rounded-full" style="width: 0%"></div>
-                        </div>
-                    </div>
-                    <button class="!rounded-button w-full bg-custom hover:bg-indigo-700 text-white px-4 py-2 text-sm font-medium transition-colors duration-200">
-                        Start Learning
-                    </button>
-                </div>
+        <!-- Recommended Courses Section -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold">Recommended For You</h2>
+                <a href="#" class="text-blue-600 hover:text-blue-800 flex items-center text-sm">
+                    View all <i class="fas fa-chevron-right ml-1"></i>
+                </a>
             </div>
 
-            <!-- Additional courses can be added following the same pattern -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Recommended Course 1 -->
+                <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2">React Development</h3>
+                            <p class="text-gray-600 mb-4">Modern frontend with React and Redux</p>
+                            <div class="flex items-center mb-4 text-sm">
+                                <span class="flex items-center text-yellow-500 mr-2">
+                                    <i class="fas fa-star mr-1"></i>
+                                    4.8
+                                </span>
+                                <span class="text-gray-500">(2,345 students)</span>
+                            </div>
+                            <button class="!rounded-button bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700">
+                                Enroll Now
+                            </button>
+                        </div>
+                        <span class="text-gray-400"><i class="fab fa-react text-2xl"></i></span>
+                    </div>
+                </div>
 
+                <!-- Recommended Course 2 -->
+                <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2">Machine Learning</h3>
+                            <p class="text-gray-600 mb-4">AI and ML fundamentals with Python</p>
+                            <div class="flex items-center mb-4 text-sm">
+                                <span class="flex items-center text-yellow-500 mr-2">
+                                    <i class="fas fa-star mr-1"></i>
+                                    4.9
+                                </span>
+                                <span class="text-gray-500">(1,987 students)</span>
+                            </div>
+                            <button class="!rounded-button bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700">
+                                Enroll Now
+                            </button>
+                        </div>
+                        <span class="text-gray-400"><i class="fas fa-brain text-2xl"></i></span>
+                    </div>
+                </div>
+
+                <!-- Recommended Course 3 -->
+                <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2">DevOps Engineering</h3>
+                            <p class="text-gray-600 mb-4">CI/CD, Docker, and Kubernetes</p>
+                            <div class="flex items-center mb-4 text-sm">
+                                <span class="flex items-center text-yellow-500 mr-2">
+                                    <i class="fas fa-star mr-1"></i>
+                                    4.7
+                                </span>
+                                <span class="text-gray-500">(1,256 students)</span>
+                            </div>
+                            <button class="!rounded-button bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700">
+                                Enroll Now
+                            </button>
+                        </div>
+                        <span class="text-gray-400"><i class="fas fa-cogs text-2xl"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Courses Section -->
+        <div>
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold">New Courses</h2>
+                <a href="#" class="text-blue-600 hover:text-blue-800 flex items-center text-sm">
+                    View all <i class="fas fa-chevron-right ml-1"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- New Course 1 -->
+                <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <div class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full w-fit mb-2">
+                                New
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">UX Design Principles</h3>
+                            <p class="text-gray-600 mb-4">Create user-friendly interfaces</p>
+                            <button class="!rounded-button bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700">
+                                Enroll Now
+                            </button>
+                        </div>
+                        <span class="text-gray-400"><i class="fas fa-paint-brush text-2xl"></i></span>
+                    </div>
+                </div>
+
+                <!-- New Course 2 -->
+                <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <div class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full w-fit mb-2">
+                                New
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">Mobile Development</h3>
+                            <p class="text-gray-600 mb-4">Create apps with React Native</p>
+                            <button class="!rounded-button bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700">
+                                Enroll Now
+                            </button>
+                        </div>
+                        <span class="text-gray-400"><i class="fas fa-mobile-alt text-2xl"></i></span>
+                    </div>
+                </div>
+
+                <!-- New Course 3 -->
+                <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <div class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full w-fit mb-2">
+                                New
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">Cybersecurity Basics</h3>
+                            <p class="text-gray-600 mb-4">Protect systems from threats</p>
+                            <button class="!rounded-button bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700">
+                                Enroll Now
+                            </button>
+                        </div>
+                        <span class="text-gray-400"><i class="fas fa-shield-alt text-2xl"></i></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
-    <footer class="bg-white border-t border-gray-200 mt-12">
-        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <footer class="bg-white border-t border-blue-200 mt-12">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
-                    <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Company</h3>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">About Us</a></li>
-                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">Careers</a></li>
-                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">Blog</a></li>
+                    <h3 class="text-lg font-semibold mb-4">Mentneo</h3>
+                    <p class="text-gray-500 text-sm">A modern learning platform for developers and tech enthusiasts.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Learning Paths</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-500 hover:text-blue-600">Web Development</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-blue-600">Data Science</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-blue-600">Mobile Development</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-blue-600">DevOps</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Support</h3>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">Help Center</a></li>
-                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">Contact Us</a></li>
-                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">Community</a></li>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-500 hover:text-blue-600">About Us</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-blue-600">Careers</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-blue-600">Blog</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-blue-600">Contact</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Legal</h3>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">Privacy Policy</a></li>
-                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">Terms of Service</a></li>
-                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">Cookie Policy</a></li>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-500 hover:text-blue-600">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-blue-600">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-blue-600">Cookie Policy</a></li>
                     </ul>
-                </div>
-                <div>
-                    <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Follow Us</h3>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-gray-500">
-                            <i class="fab fa-twitter text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-gray-500">
-                            <i class="fab fa-facebook text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-gray-500">
-                            <i class="fab fa-instagram text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-gray-500">
-                            <i class="fab fa-github text-xl"></i>
-                        </a>
-                    </div>
                 </div>
             </div>
-            <div class="mt-8 border-t border-gray-200 pt-8">
-                <p class="text-base text-gray-400">&copy; 2024 Learning Platform. All rights reserved.</p>
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <p class="text-center text-gray-500 text-sm">© 2024 Mentneo Learning Platform. All rights reserved.</p>
             </div>
         </div>
     </footer>
+
+    <!-- Profile Modal -->
+    <div class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 hidden" id="profile-modal">
+        <div class="bg-white rounded-lg max-w-md w-full p-6 shadow-xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold text-gray-900">Edit Profile</h3>
+                <button type="button" class="text-gray-400 hover:text-gray-500" id="close-profile-modal">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <div class="mb-4 hidden" id="profile-error">
+                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
+                    <p class="font-medium">Error</p>
+                    <p id="profile-error-message">Something went wrong. Please try again.</p>
+                </div>
+            </div>
+
+            <div class="mb-4 hidden" id="profile-success">
+                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4" role="alert">
+                    <p class="font-medium">Success!</p>
+                    <p>Your profile has been updated successfully.</p>
+                </div>
+            </div>
+
+            <form id="profile-form" class="space-y-4">
+                <!-- Profile Picture -->
+                <div class="text-center">
+                    <div class="mb-4">
+                        <div id="profile-picture-container" class="h-32 w-32 rounded-full mx-auto bg-gray-200 flex items-center justify-center overflow-hidden">
+                            <!-- Profile image or initials will be set dynamically -->
+                            <span id="profile-initials" class="text-3xl font-bold text-gray-500">AB</span>
+                            <img id="profile-image" class="h-full w-full object-cover hidden" src="" alt="Profile">
+                        </div>
+                    </div>
+                    <button type="button" id="upload-button" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                        <i class="fas fa-camera mr-1"></i> Change Profile Picture
+                    </button>
+                </div>
+
+                <!-- Name Fields -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="profile-first-name" class="block text-sm font-medium text-gray-700">First name</label>
+                        <input type="text" id="profile-first-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                    </div>
+                    <div>
+                        <label for="profile-last-name" class="block text-sm font-medium text-gray-700">Last name</label>
+                        <input type="text" id="profile-last-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                    </div>
+                </div>
+
+                <!-- Bio -->
+                <div>
+                    <label for="profile-bio" class="block text-sm font-medium text-gray-700">Bio</label>
+                    <textarea id="profile-bio" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
+                </div>
+
+                <!-- Save Button -->
+                <button type="submit" class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" id="save-profile-button">
+                    Save Changes
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyCf0Z27yRLiE1pRPe4kDJPDvaV_dLlkl84",
+                authDomain: "qwedsfvb-6002e.firebaseapp.com",
+                projectId: "qwedsfvb-6002e",
+                storageBucket: "qwedsfvb-6002e.firebasestorage.app",
+                messagingSenderId: "970311760029",
+                appId: "1:970311760029:web:50b081a7f98e34a41c7c74",
+                measurementId: "G-RJHDRBZFF8"
+            };
+            
+            // Initialize Firebase
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+            const auth = firebase.auth();
+            const db = firebase.firestore();
+            
+            // User menu functionality
+            const userMenuButton = document.getElementById('user-menu-button');
+            const userDropdown = document.getElementById('user-dropdown');
+            const userNameDisplay = document.getElementById('user-name');
+            
+            // Profile modal elements
+            const profileModal = document.getElementById('profile-modal');
+            const closeProfileModal = document.getElementById('close-profile-modal');
+            const profileForm = document.getElementById('profile-form');
+            const profileFirstName = document.getElementById('profile-first-name');
+            const profileLastName = document.getElementById('profile-last-name');
+            const profileBio = document.getElementById('profile-bio');
+            const profileInitials = document.getElementById('profile-initials');
+            const profileImage = document.getElementById('profile-image');
+            const profileError = document.getElementById('profile-error');
+            const profileSuccess = document.getElementById('profile-success');
+            const profileErrorMessage = document.getElementById('profile-error-message');
+            
+            // Current user data
+            let currentUser = null;
+            let userData = {};
+            let uploadedImageUrl = null;
+            
+            // Toggle dropdown when clicking the user menu button
+            userMenuButton.addEventListener('click', function() {
+                userDropdown.classList.toggle('hidden');
+            });
+            
+            // Close dropdown when clicking outside
+            window.addEventListener('click', function(e) {
+                if (!userMenuButton.contains(e.target)) {
+                    userDropdown.classList.add('hidden');
+                }
+            });
+            
+            // Handle logout button click
+            const logoutButton = document.getElementById('logout-button');
+            logoutButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Sign out and redirect to login page
+                auth.signOut().then(() => {
+                    window.location.href = 'login.html';
+                }).catch(error => {
+                    console.error("Error signing out:", error);
+                    alert("Failed to sign out. Please try again.");
+                });
+            });
+            
+            // Cloudinary Upload Widget Configuration
+            let uploadWidget = cloudinary.createUploadWidget(
+                {
+                    cloudName: "dp8bfdbab", // Updated with your Cloudinary cloud name
+                    uploadPreset: "cryptchat", // Updated with your upload preset name
+                    cropping: true,
+                    sources: ["local", "camera"],
+                    styles: {
+                        palette: {
+                            window: "#F5F5F5",
+                            windowBorder: "#90A0B3",
+                            tabIcon: "#0078FF",
+                            menuIcons: "#5A616A",
+                            textDark: "#000000",
+                            textLight: "#FFFFFF",
+                            link: "#0078FF",
+                            action: "#FF620C",
+                            inactiveTabIcon: "#0E2F5A",
+                            error: "#F44235",
+                            inProgress: "#0078FF",
+                            complete: "#20B832",
+                            sourceBg: "#FFFFFF"
+                        }
+                    }
+                },
+                (error, result) => {
+                    if (!error && result && result.event === "success") {
+                        console.log("Upload successful:", result.info);
+                        uploadedImageUrl = result.info.secure_url;
+                        
+                        // Update profile image
+                        profileImage.src = uploadedImageUrl;
+                        profileImage.classList.remove('hidden');
+                        profileInitials.classList.add('hidden');
+                    }
+                }
+            );
+            
+            // Setup upload button
+            document.getElementById('upload-button').addEventListener('click', () => {
+                uploadWidget.open();
+            });
+            
+            // Open profile modal when clicking "Your Profile" in dropdown
+            document.querySelector('#user-dropdown a:first-child').addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Reset form and error messages
+                profileError.classList.add('hidden');
+                profileSuccess.classList.add('hidden');
+                
+                // Populate form with current user data
+                if (userData) {
+                    profileFirstName.value = userData.firstName || '';
+                    profileLastName.value = userData.lastName || '';
+                    profileBio.value = userData.bio || '';
+                    
+                    if (userData.photoURL) {
+                        profileImage.src = userData.photoURL;
+                        profileImage.classList.remove('hidden');
+                        profileInitials.classList.add('hidden');
+                    } else {
+                        profileImage.classList.add('hidden');
+                        profileInitials.classList.remove('hidden');
+                        profileInitials.textContent = getInitials(userData.displayName || 'User');
+                    }
+                }
+                
+                // Show modal
+                profileModal.classList.remove('hidden');
+                userDropdown.classList.add('hidden');
+            });
+            
+            // Close profile modal
+            closeProfileModal.addEventListener('click', function() {
+                profileModal.classList.add('hidden');
+                uploadedImageUrl = null; // Reset uploaded image
+            });
+            
+            // Close modal when clicking outside
+            profileModal.addEventListener('click', function(e) {
+                if (e.target === profileModal) {
+                    profileModal.classList.add('hidden');
+                    uploadedImageUrl = null; // Reset uploaded image
+                }
+            });
+            
+            // Handle profile form submission
+            profileForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const firstName = profileFirstName.value.trim();
+                const lastName = profileLastName.value.trim();
+                const bio = profileBio.value.trim();
+                const displayName = `${firstName} ${lastName}`;
+                
+                // Disable submit button and show loading state
+                const saveButton = document.getElementById('save-profile-button');
+                saveButton.disabled = true;
+                saveButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Saving...';
+                
+                // Prepare update data
+                const updateData = {
+                    firstName: firstName,
+                    lastName: lastName,
+                    displayName: displayName,
+                    bio: bio,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                
+                // Add photo URL if available
+                if (uploadedImageUrl) {
+                    updateData.photoURL = uploadedImageUrl;
+                }
+                
+                // Update Firestore
+                db.collection('users').doc(currentUser.uid).update(updateData)
+                    .then(() => {
+                        // Update Firebase Auth display name
+                        return currentUser.updateProfile({
+                            displayName: displayName,
+                            ...(uploadedImageUrl && { photoURL: uploadedImageUrl })
+                        });
+                    })
+                    .then(() => {
+                        // Update local userData
+                        userData = {
+                            ...userData,
+                            ...updateData
+                        };
+                        
+                        // Update UI
+                        updateUserUI();
+                        
+                        // Show success message
+                        profileSuccess.classList.remove('hidden');
+                        profileError.classList.add('hidden');
+                        
+                        // Reset button
+                        saveButton.disabled = false;
+                        saveButton.innerHTML = 'Save Changes';
+                        
+                        // Close modal after 1.5 seconds
+                        setTimeout(() => {
+                            profileModal.classList.add('hidden');
+                        }, 1500);
+                    })
+                    .catch(error => {
+                        console.error("Error updating profile:", error);
+                        
+                        // Show error message
+                        profileError.classList.remove('hidden');
+                        profileSuccess.classList.add('hidden');
+                        profileErrorMessage.textContent = error.message || "Failed to update profile. Please try again.";
+                        
+                        // Reset button
+                        saveButton.disabled = false;
+                        saveButton.innerHTML = 'Save Changes';
+                    });
+            });
+            
+            // Helper function to get initials from name
+            function getInitials(name) {
+                return name
+                    .split(' ')
+                    .map(part => part.charAt(0))
+                    .join('')
+                    .toUpperCase()
+                    .substring(0, 2);
+            }
+            
+            // Update UI based on user data
+            function updateUserUI() {
+                const displayName = userData.displayName || 'User';
+                const firstName = displayName.split(' ')[0];
+                userNameDisplay.textContent = firstName;
+                
+                if (userData.photoURL) {
+                    userMenuButton.innerHTML = `
+                        <img src="${userData.photoURL}" alt="${firstName}" class="h-8 w-8 rounded-full mr-2">
+                        <span>${firstName}</span>
+                        <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                    `;
+                } else {
+                    const initials = getInitials(displayName);
+                    userMenuButton.innerHTML = `
+                        <div class="h-8 w-8 rounded-full bg-blue-800 flex items-center justify-center mr-2">
+                            <span class="text-white font-semibold">${initials}</span>
+                        </div>
+                        <span>${firstName}</span>
+                        <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                    `;
+                }
+            }
+            
+            // Check if user is authenticated
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    // Store current user
+                    currentUser = user;
+                    
+                    // Get user data from Firestore
+                    db.collection('users').doc(user.uid).get()
+                        .then(doc => {
+                            if (doc.exists) {
+                                userData = doc.data();
+                            } else {
+                                // If no document exists, create one with auth user data
+                                userData = {
+                                    displayName: user.displayName || 'User',
+                                    firstName: user.displayName ? user.displayName.split(' ')[0] : '',
+                                    lastName: user.displayName ? user.displayName.split(' ').slice(1).join(' ') : '',
+                                    email: user.email,
+                                    photoURL: user.photoURL,
+                                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                                };
+                                
+                                // Create user document
+                                db.collection('users').doc(user.uid).set(userData);
+                            }
+                            
+                            // Update UI with user information
+                            updateUserUI();
+                        })
+                        .catch(error => {
+                            console.error("Error getting user data:", error);
+                            userNameDisplay.textContent = user.displayName || 'User';
+                        });
+                } else {
+                    // No user is signed in, redirect to login
+                    window.location.href = 'login.html';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
