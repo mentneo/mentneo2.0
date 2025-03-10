@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>HTML Learning Modules</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
+</head>
+<body class="bg-blue-50 min-h-screen">
+    <nav class="bg-white border-b border-blue-200">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <a href="./frontendpage.html" class="flex items-center text-blue-800 hover:text-blue-600">
+                        <i class="fas fa-arrow-left text-lg mr-4"></i>
+                        <span class="text-xl font-semibold">HTML Learning Path</span>
+                    </a>
+                </div>
+                <div class="flex items-center">
+                    <button class="!rounded-button bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700">
+                        <i class="fas fa-user-circle mr-2"></i>My Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="mb-8">
+            <div class="bg-white rounded-lg p-4 shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold">Course Progress</h2>
+                    <span class="text-sm text-gray-500">0% Complete</span>
+                </div>
+                <div class="h-2 bg-gray-200 rounded-full">
+                    <div class="h-2 bg-blue-600 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Module 1: HTML Basics</h3>
+                        <p class="text-gray-600 mb-4">Learn the fundamentals of HTML structure and elements</p>
+                        <button class="!rounded-button bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700" onclick="location.href='./videopage.html'">
+                            Start Module
+                        </button>
+                    </div>
+                    <span class="text-gray-400"><i class="fas fa-code text-2xl"></i></span>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Module 2: Text &amp; Links</h3>
+                        <p class="text-gray-600 mb-4">Master text formatting and hyperlink creation</p>
+                        <button class="!rounded-button bg-gray-200 text-gray-700 px-4 py-2 text-sm font-medium" disabled="">
+                            Locked
+                        </button>
+                    </div>
+                    <span class="text-gray-400"><i class="fas fa-link text-2xl"></i></span>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Module 3: Images &amp; Media</h3>
+                        <p class="text-gray-600 mb-4">Work with images, audio, and video elements</p>
+                        <button class="!rounded-button bg-gray-200 text-gray-700 px-4 py-2 text-sm font-medium" disabled="">
+                            Locked
+                        </button>
+                    </div>
+                    <span class="text-gray-400"><i class="fas fa-image text-2xl"></i></span>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Module 4: Forms</h3>
+                        <p class="text-gray-600 mb-4">Create interactive forms and input elements</p>
+                        <button class="!rounded-button bg-gray-200 text-gray-700 px-4 py-2 text-sm font-medium" disabled="">
+                            Locked
+                        </button>
+                    </div>
+                    <span class="text-gray-400"><i class="fas fa-wpforms text-2xl"></i></span>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Module 5: Tables</h3>
+                        <p class="text-gray-600 mb-4">Structure data with HTML tables</p>
+                        <button class="!rounded-button bg-gray-200 text-gray-700 px-4 py-2 text-sm font-medium" disabled="">
+                            Locked
+                        </button>
+                    </div>
+                    <span class="text-gray-400"><i class="fas fa-table text-2xl"></i></span>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Module 6: Semantic HTML</h3>
+                        <p class="text-gray-600 mb-4">Use semantic elements for better structure</p>
+                        <button class="!rounded-button bg-gray-200 text-gray-700 px-4 py-2 text-sm font-medium" disabled="">
+                            Locked
+                        </button>
+                    </div>
+                    <span class="text-gray-400"><i class="fas fa-sitemap text-2xl"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg p-6 shadow-sm">
+            <h2 class="text-xl font-semibold mb-6">HTML Projects</h2>
+            <div class="text-center py-8">
+                <i class="fas fa-folder-open text-4xl text-gray-400 mb-4"></i>
+                <p class="text-gray-600">Complete modules to unlock projects</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-blue-200 mt-12">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <p class="text-center text-gray-500 text-sm">© 2024 HTML Learning Platform. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+</body></html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Assignment Submission</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-white min-h-screen">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 ml-64"><div class="fixed left-0 top-0 h-screen w-64 bg-white shadow-lg border-r border-gray-200 p-4"><div class="space-y-4"><div class="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg cursor-pointer"><i class="fas fa-home text-gray-600"></i><span class="text-gray-700">Dashboard</span></div><div class="flex items-center gap-2 p-2 bg-blue-50 rounded-lg cursor-pointer"><i class="fas fa-book text-blue-600"></i><span class="text-blue-600">Assignments</span></div><div class="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg cursor-pointer"><i class="fas fa-calendar text-gray-600"></i><span class="text-gray-700">Schedule</span></div><div class="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg cursor-pointer"><i class="fas fa-chart-bar text-gray-600"></i><span class="text-gray-700">Progress</span></div><div class="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg cursor-pointer"><i class="fas fa-cog text-gray-600"></i><span class="text-gray-700">Settings</span></div></div></div>
+        <nav class="py-4 flex items-center justify-between">
+            <button class="text-gray-600 hover:text-gray-900 !rounded-button" onclick="location.href='/videopage.html'">
+                <i class="fas fa-arrow-left text-xl"></i>
+            </button>
+            <img src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Logo" class="h-8"/>
+            <div class="w-8 h-8 rounded-full overflow-hidden">
+                <img src="https://creatie.ai/ai/api/search-image?query=A professional headshot of a person wearing business attire against a neutral background, captured with studio lighting and showing a friendly expression&width=100&height=100&orientation=squarish&flag=950966b3-938c-4a64-bb47-785efffde233&flag=13a2727b-3569-4257-bcf3-a307248cfba8&flag=d466d7f3-0463-422c-8a14-159bfa1d2878&flag=2f0f232a-ecae-4be6-8438-24a21039efae&flag=ea1ad83f-4903-4227-b583-1470feda2e54&flag=191046b7-6584-4f54-90fb-cacd59299317" alt="Profile" class="w-full h-full object-cover"/>
+            </div>
+        </nav>
+        <main class="py-8">
+            <div class="max-w-4xl mx-auto backdrop-blur-md bg-white/70 rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl border border-blue-100">
+                <h1 class="text-2xl font-bold text-gray-900 mb-6 bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">Assignment - 1</h1>
+                <div class="backdrop-blur-md bg-white/50 rounded-lg p-4 mb-6 border border-blue-100 hover:shadow-lg transition-all duration-300">
+
+                <iframe src="https://docs.google.com/document/d/1bo4LpWMJiVGtrEwnJCYipWDLqdNvdRCm7VnCtHplLeY/preview" class="w-full h-[800px] border-0 rounded-lg shadow-md" style="aspect-ratio: 8.5/11;"></iframe></div>
+                
+                <div class="flex flex-col items-center justify-center space-y-4">
+                    <div id="dropZone" class="w-full max-w-2xl p-8 border-2 border-dashed border-blue-200 rounded-lg text-center hover:border-blue-400 transition-colors duration-300 cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-blue-400 mb-4"></i>
+                        <p class="text-gray-600 text-lg">
+                            Drag and drop files here or
+                            <label for="fileInput" class="text-blue-500 hover:text-blue-600 cursor-pointer">Upload To Drive</label>
+                        </p>
+                        <input type="file" id="fileInput" class="hidden" multiple>
+                        <p id="fileInfo" class="mt-2 text-sm text-gray-500"></p>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <button onclick="openGoogleDrive()" class="bg-white text-blue-600 border border-blue-600 px-6 py-2 rounded-lg hover:bg-blue-50 transition-all duration-300 flex items-center space-x-2">
+                            <i class="fab fa-google-drive mr-2"></i>
+                            <span>Upload to Drive</span>
+                        </button>
+                        <button class="bg-gradient-to-r from-blue-600 to-blue-400 text-white px-6 py-2 rounded-lg hover:shadow-blue-200/50 hover:translate-y-[-2px] active:translate-y-[0px] transition-all duration-300 flex items-center space-x-2" onclick="confirmSubmission()">
+                            <span>Submit now</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        // Replace with your Google Drive folder URL
+        const GOOGLE_DRIVE_URL = 'https://drive.google.com/drive/folders/1MN1yMJLT2JuFKclzujyFFCVcKEweqGl3';
+
+        function openGoogleDrive() {
+            window.open(GOOGLE_DRIVE_URL, '_blank');
+        }
+
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Highlight drop zone when dragging over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropZone.classList.add('border-blue-600');
+        }
+
+        function unhighlight(e) {
+            dropZone.classList.remove('border-blue-600');
+        }
+
+        // Handle dropped files
+        dropZone.addEventListener('drop', handleDrop, false);
+        fileInput.addEventListener('change', handleFiles, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles({ target: { files: files } });
+        }
+
+        function handleFiles(e) {
+            const files = [...e.target.files];
+            fileInfo.textContent = `Selected ${files.length} file(s): ${files.map(f => f.name).join(', ')}`;
+            // Here you can add code to upload files to Google Drive
+            openGoogleDrive();
+        }
+
+        function confirmSubmission() {
+            if (confirm('Are you sure you want to submit this assignment?')) {
+                alert('Assignment submitted successfully!');
+            }
+        }
+    </script>
+</body>
+</html>

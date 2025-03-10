@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Catalog | Learn Programming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <img class="h-8 w-auto" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Logo">
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                        <button class="!rounded-button bg-custom hover:bg-indigo-700 text-white px-4 py-2 text-sm font-medium transition-colors duration-200">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="mb-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div class="relative flex-1 max-w-xl">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                    <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:border-custom focus:ring-1 focus:ring-custom" placeholder="Search courses...">
+                </div>
+                <div class="flex gap-4">
+                    <select class="border border-gray-300 rounded-md bg-white px-3 py-2 text-sm focus:outline-none focus:border-custom focus:ring-1 focus:ring-custom">
+                        <option>All Categories</option>
+                        <option>Programming</option>
+                        <option>Data Science</option>
+                        <option>Web Development</option>
+                    </select>
+                    <select class="border border-gray-300 rounded-md bg-white px-3 py-2 text-sm focus:outline-none focus:border-custom focus:ring-1 focus:ring-custom">
+                        <option>Sort by</option>
+                        <option>Most Popular</option>
+                        <option>Newest</option>
+                        <option>Price: Low to High</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Frontend Course -->
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden border border-gray-100">
+                <div class="aspect-w-16 aspect-h-9">
+                    <img src="./images/frontend.png" alt="Frontend Development" class="object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Frontend Development</h3>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-indigo-100 text-custom">
+                            <i class="fab fa-html5 mr-1"></i>HTML
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-blue-100 text-blue-800">
+                            <i class="fab fa-css3-alt mr-1"></i>CSS
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-yellow-100 text-yellow-800">
+                            <i class="fab fa-js mr-1"></i>JavaScript
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-cyan-100 text-cyan-800">
+                            <i class="fab fa-react mr-1"></i>React
+                        </span>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-600">Progress</span>
+                            <span class="text-custom font-medium">60%</span>
+                        </div>
+                        <div class="h-2 bg-gray-200 rounded-full">
+                            <div class="h-2 bg-custom rounded-full" style="width: 60%"></div>
+                        </div>
+                    </div>
+                    <button class="!rounded-button w-full bg-custom hover:bg-indigo-700 text-white px-4 py-2 text-sm font-medium transition-colors duration-200" onclick=" location.href ='./frontendpage.html';">
+                        Continue Learning
+                    </button>
+                </div>
+            </div>
+
+            <!-- AI & DS Course -->
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden border border-gray-100">
+                <div class="aspect-w-16 aspect-h-9">
+                    <img src="./images/aids.png" alt="AI & Data Science" class="object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">AI & Data Science</h3>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-blue-100 text-blue-800">
+                            <i class="fab fa-python mr-1"></i>Python
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-orange-100 text-orange-800">
+                            <i class="fas fa-brain mr-1"></i>TensorFlow
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
+                            <i class="fas fa-chart-line mr-1"></i>PyTorch
+                        </span>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-600">Progress</span>
+                            <span class="text-custom font-medium">25%</span>
+                        </div>
+                        <div class="h-2 bg-gray-200 rounded-full">
+                            <div class="h-2 bg-custom rounded-full" style="width: 25%"></div>
+                        </div>
+                    </div>
+                    <button class="!rounded-button w-full bg-custom hover:bg-indigo-700 text-white px-4 py-2 text-sm font-medium transition-colors duration-200">
+                        Continue Learning
+                    </button>
+                </div>
+            </div>
+
+            <!-- Full Stack Course -->
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden border border-gray-100">
+                <div class="aspect-w-16 aspect-h-9">
+                    <img src="./images/fullstack.png" alt="Full Stack Development" class="object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Full Stack Development</h3>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
+                            <i class="fab fa-node-js mr-1"></i>Node.js
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gray-100 text-gray-800">
+                            <i class="fas fa-server mr-1"></i>Express
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
+                            <i class="fas fa-database mr-1"></i>MongoDB
+                        </span>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-600">Progress</span>
+                            <span class="text-custom font-medium">0%</span>
+                        </div>
+                        <div class="h-2 bg-gray-200 rounded-full">
+                            <div class="h-2 bg-custom rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <button class="!rounded-button w-full bg-custom hover:bg-indigo-700 text-white px-4 py-2 text-sm font-medium transition-colors duration-200">
+                        Start Learning
+                    </button>
+                </div>
+            </div>
+
+            <!-- Additional courses can be added following the same pattern -->
+
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Company</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">About Us</a></li>
+                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">Careers</a></li>
+                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Support</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">Help Center</a></li>
+                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">Contact Us</a></li>
+                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">Community</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Legal</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">Privacy Policy</a></li>
+                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">Terms of Service</a></li>
+                        <li><a href="#" class="text-base text-gray-500 hover:text-gray-900">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Follow Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-gray-500">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-gray-500">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-gray-500">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-gray-500">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-200 pt-8">
+                <p class="text-base text-gray-400">&copy; 2024 Learning Platform. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
