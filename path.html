@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Paths - MentNeo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .path-section {
+            margin-bottom: 40px;
+        }
+
+        .path-title {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .course-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .course-content {
+            padding: 20px;
+        }
+
+        .course-title {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .course-info {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .stat i {
+            margin-right: 5px;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #ecf0f1;
+            border-radius: 2px;
+            margin-bottom: 15px;
+        }
+
+        .progress {
+            height: 100%;
+            background: #3498db;
+            border-radius: 2px;
+            width: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+        }
+
+        .difficulty {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .beginner { background: #e1f7e1; color: #27ae60; }
+        .intermediate { background: #fff3e0; color: #f39c12; }
+        .advanced { background: #fce4ec; color: #e74c3c; }
+
+        /* Add new navigation styles */
+        .nav-bar {
+            background: linear-gradient(to right, #2c3e50, #3498db);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 5px;
+            padding: 5px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link i {
+            margin-right: 5px;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background: white;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <!-- Add Navigation Bar -->
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>MentNeo</span>
+            </a>
+            <div class="nav-links">
+                <a href="frontendpage.html" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="path.html" class="nav-link active">
+                    <i class="fas fa-road"></i> Learning Paths
+                </a>
+                <a href="projects.html" class="nav-link">
+                    <i class="fas fa-project-diagram"></i> Projects
+                </a>
+                <a href="community.html" class="nav-link">
+                    <i class="fas fa-users"></i> Community
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="header">
+        <h1>MentNeo Learning Paths</h1>
+        <p>Choose your path and start learning today</p>
+    </div>
+
+    <div class="container">
+        <!-- Fullstack Development Path -->
+        <div class="path-section">
+            <h2 class="path-title">Fullstack Development Path</h2>
+            <div class="course-grid">
+                <div class="course-card">
+                    <img src="https://via.placeholder.com/300x160" alt="MERN Stack" class="course-image">
+                    <div class="course-content">
+                        <h3 class="course-title">MERN Stack Development</h3>
+                        <p class="course-info">Master MongoDB, Express.js, React, and Node.js</p>
+                        <div class="course-stats">
+                            <span class="stat"><i class="fas fa-clock"></i> 40 hours</span>
+                            <span class="difficulty intermediate">Intermediate</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%"></div>
+                        </div>
+                        <a href="#" class="btn">Start Learning</a>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <img src="https://via.placeholder.com/300x160" alt="Python Fullstack" class="course-image">
+                    <div class="course-content">
+                        <h3 class="course-title">Python Full Stack</h3>
+                        <p class="course-info">Django, React, and PostgreSQL</p>
+                        <div class="course-stats">
+                            <span class="stat"><i class="fas fa-clock"></i> 45 hours</span>
+                            <span class="difficulty advanced">Advanced</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%"></div>
+                        </div>
+                        <a href="#" class="btn">Start Learning</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI & Machine Learning Path -->
+        <div class="path-section">
+            <h2 class="path-title">AI & Machine Learning Path</h2>
+            <div class="course-grid">
+                <div class="course-card">
+                    <img src="https://via.placeholder.com/300x160" alt="AI Fundamentals" class="course-image">
+                    <div class="course-content">
+                        <h3 class="course-title">AI Fundamentals</h3>
+                        <p class="course-info">Introduction to AI, ML, and Deep Learning</p>
+                        <div class="course-stats">
+                            <span class="stat"><i class="fas fa-clock"></i> 30 hours</span>
+                            <span class="difficulty beginner">Beginner</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%"></div>
+                        </div>
+                        <a href="#" class="btn">Start Learning</a>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <img src="https://via.placeholder.com/300x160" alt="Deep Learning" class="course-image">
+                    <div class="course-content">
+                        <h3 class="course-title">Deep Learning Specialization</h3>
+                        <p class="course-info">Neural Networks, CNN, RNN, and more</p>
+                        <div class="course-stats">
+                            <span class="stat"><i class="fas fa-clock"></i> 50 hours</span>
+                            <span class="difficulty advanced">Advanced</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%"></div>
+                        </div>
+                        <a href="#" class="btn">Start Learning</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <script>
+        // Initialize Firebase with your config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCf0Z27yRLiE1pRPe4kDJPDvaV_dLlkl84",
+            authDomain: "qwedsfvb-6002e.firebaseapp.com",
+            projectId: "qwedsfvb-6002e",
+            storageBucket: "qwedsfvb-6002e.firebasestorage.app",
+            messagingSenderId: "970311760029",
+            appId: "1:970311760029:web:50b081a7f98e34a41c7c74",
+            measurementId: "G-RJHDRBZFF8"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Load course progress for current user
+        function loadCourseProgress() {
+            // This would be implemented based on your user authentication system
+            const userId = 'current-user-id'; // Replace with actual user ID
+            
+            db.collection('courseProgress')
+                .where('userId', '==', userId)
+                .get()
+                .then((snapshot) => {
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        const progressBar = document.querySelector(`[data-course="${data.courseId}"] .progress`);
+                        if (progressBar) {
+                            progressBar.style.width = `${data.progress}%`;
+                        }
+                    });
+                });
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCourseProgress();
+
+            // Handle navigation active state
+            const currentPath = window.location.pathname;
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if(link.getAttribute('href') === currentPath.split('/').pop()) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Logout handler
+            document.getElementById('logoutBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                // Add Firebase logout logic here
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+</html>
