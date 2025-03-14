@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HTML Module - 1 | Learning Platform</title>
+    <title>HTML Module - 2 | Learning Platform</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
         rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
@@ -42,7 +42,7 @@
                 <div class="max-w-8xl mx-auto">
                     <div class="mb-8 flex justify-between items-center">
                         <div>
-                            <h1 class="text-3xl font-bold text-gray-900">HTML Module - 1</h1>
+                            <h1 class="text-3xl font-bold text-gray-900">HTML Module - 2</h1>
                             <p class="mt-2 text-gray-600">Introduction to HTML basics and fundamentals</p>
                         </div>
                         <div class="flex items-center space-x-4">
@@ -50,8 +50,8 @@
                                 <i class="fas fa-arrow-left mr-2"></i>
                                 Previous
                             </button>
-                            <button class="!rounded-button px-4 py-2 bg-blue-600 text-white hover:bg-blue-700">
-                                Next
+                            <button id="nextButton" class="!rounded-button btn-primary px-4 py-2 bg-blue-600 text-white hover:bg-blue-700">
+                                Next Module
                                 <i class="fas fa-arrow-right ml-2"></i>
                             </button>
                         </div>
@@ -97,13 +97,13 @@
                             </div>
                         </button>
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50 active:bg-blue-600 active:text-white">
-                            2. HTML Elements
+                            2. modul
                         </button>
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50">
-                            3. Text Formatting
+                            3. Tmodule
                         </button>
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50">
-                            4. Links and Images
+                            4. Limod
                         </button>
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50">
                             5. Lists and Tables
@@ -114,6 +114,7 @@
                     </div>
                 </div>
             </aside>
+            <a href=""></a>
         </div>
         <footer class="bg-white border-t border-gray-200">
             <div class="max-w-8xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -200,6 +201,15 @@
                         nextButton.disabled = false;
                         nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
                     }
+                }
+
+                // Check if all topics in module are completed
+                const allTopicsCompleted = Array.from(buttons).every(btn => 
+                    btn.querySelector('.fa-check-circle')
+                );
+                
+                if (allTopicsCompleted) {
+                    markModuleAsCompleted();
                 }
             }
 
@@ -331,14 +341,130 @@
                         currentVideoIndex = currentIndex - 1;
                         buttons[currentVideoIndex].click();
                     } else {
-                        location.href = 'modulespage.html';
+                        location.href = '../main pages/modulespagehtml.html';
                     }
                 } else {
-                    location.href = 'modulespage.html';
+                    location.href = '../main pages/modulespagehtml.html';
                 }
             });
 
             loadFromLocalStorage();
+        });
+
+        function markModuleAsCompleted() {
+            const completedModules = JSON.parse(localStorage.getItem('completedModules')) || [];
+            const currentModule = parseInt(new URLSearchParams(window.location.search).get('module') || '0');
+            
+            if (!completedModules.includes(currentModule)) {
+                completedModules.push(currentModule);
+                localStorage.setItem('completedModules', JSON.stringify(completedModules));
+                
+                // Add completion UI feedback
+                showCompletionMessage();
+            }
+        }
+
+        function showCompletionMessage() {
+            const message = document.createElement('div');
+            message.className = 'fixed top-4 right-4 bg-green-100 text-green-800 px-6 py-3 rounded-lg shadow-lg';
+            message.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                    <span>Module completed! Ready for next module.</span>
+                </div>
+            `;
+            document.body.appendChild(message);
+            setTimeout(() => message.remove(), 3000);
+        }
+
+        // Update next button click handler
+        const nextButton = document.getElementById('nextButton');
+        nextButton.addEventListener('click', function() {
+            const completedTopics = JSON.parse(localStorage.getItem('completedTopics')) || [];
+            const completedModules = JSON.parse(localStorage.getItem('completedModules')) || [];
+            const currentModule = parseInt(new URLSearchParams(window.location.search).get('module') || '0');
+            
+            if (completedTopics.length === 6) { // All topics in current module completed
+                // Mark current module as completed
+                if (!completedModules.includes(currentModule)) {
+                    completedModules.push(currentModule);
+                    localStorage.setItem('completedModules', JSON.stringify(completedModules));
+                }
+                
+                // Navigate to next module
+                const nextModule = currentModule + 1;
+                window.location.href = `module${nextModule + 1}videopage.html?module=${nextModule}`;
+            } else {
+                // Show warning message
+                const warningMessage = document.createElement('div');
+                warningMessage.className = 'fixed top-4 right-4 bg-yellow-100 text-yellow-800 px-6 py-3 rounded-lg shadow-lg';
+                warningMessage.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>
+                        <span>Please complete all topics in this module first</span>
+                    </div>
+                `;
+                document.body.appendChild(warningMessage);
+                setTimeout(() => warningMessage.remove(), 3000);
+            }
+        });
+
+        // Remove duplicate event listeners for btn-primary
+        // Remove these lines:
+        // document.querySelector('button.btn-primary').addEventListener...
+        // The duplicate event listener for btn-primary
+
+        function checkModuleCompletion() {
+            const allTopicsCompleted = completedTopics.length === 6; // All 6 topics must be completed
+            
+            if (allTopicsCompleted) {
+                markModuleAsCompleted();
+                
+                // Show completion message and enable next module button
+                const completionMessage = document.createElement('div');
+                completionMessage.className = 'bg-green-100 text-green-800 p-4 rounded-lg mb-4';
+                completionMessage.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                        <span>Module completed! You can now proceed to Module 2.</span>
+                    </div>
+                `;
+                document.querySelector('.main-content').insertBefore(
+                    completionMessage,
+                    document.querySelector('.bg-white.rounded-lg')
+                );
+            }
+        }
+
+        // Update markTopicAsCompletedWithIcon function
+        function markTopicAsCompletedWithIcon(button) {
+            // ...existing code...
+            
+            // Check module completion after marking topic
+            checkModuleCompletion();
+        }
+
+        // Update navigation to next module
+        document.querySelector('button.btn-primary').addEventListener('click', function() {
+            const completedModules = JSON.parse(localStorage.getItem('completedModules')) || [];
+            const currentModule = 0; // Module 1 index
+            
+            if (completedModules.includes(currentModule)) {
+                window.location.href = '../html module/module3videopage.html';
+            } else {
+                alert('Please complete all topics in this module first.');
+            }
+        });
+
+        document.querySelector('button.btn-primary').addEventListener('click', function() {
+            const completedModules = JSON.parse(localStorage.getItem('completedModules')) || [];
+            const currentModule = 0; // Module 1 index
+            
+            if (completedModules.includes(currentModule)) {
+                window.location.href = '../html module/module3videopage.html';
+            } else {
+                alert('Please complete all topics in this module first.');
+            }
         });
     </script>
 </body>
