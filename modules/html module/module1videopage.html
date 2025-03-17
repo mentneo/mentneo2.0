@@ -77,6 +77,42 @@
                 height: 100%;
             }
         }
+
+        @media (max-width: 768px) {
+            .module-topics-mobile {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 1rem;
+                box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+                z-index: 50;
+                border-top-left-radius: 1rem;
+                border-top-right-radius: 1rem;
+                max-height: 60vh;
+                overflow-y: auto;
+            }
+
+            .module-topics-mobile .space-y-2 {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+
+            aside {
+                display: none;
+            }
+
+            main {
+                padding-bottom: 8rem;
+            }
+
+            .dark-mode .module-topics-mobile {
+                background: #2d2d2d;
+                border-top: 1px solid #404040;
+            }
+        }
     </style>
 </head>
 
@@ -99,10 +135,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Add hamburger menu button -->
-                    <button id="menuToggle" class="md:hidden p-2">
-                        <i class="fas fa-bars text-gray-600"></i>
-                    </button>
                     <!-- Add dark mode toggle -->
                     <button id="darkModeToggle" class="p-2 ml-4">
                         <i class="fas fa-moon text-gray-600"></i>
@@ -111,18 +143,13 @@
             </div>
         </nav>
 
-        <!-- Mobile menu -->
-        <div class="mobile-menu shadow-lg">
-            <div class="p-4 border-b border-gray-200">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-lg font-semibold">Module Topics</h2>
-                    <button id="closeMenu" class="p-2">
-                        <i class="fas fa-times text-gray-600"></i>
-                    </button>
-                </div>
+        <!-- Add the new mobile topics view -->
+        <div class="module-topics-mobile md:hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold">Module Topics</h2>
             </div>
-            <div class="p-4">
-                <!-- Mobile menu content will be populated by JS -->
+            <div class="space-y-2">
+                <!-- Topics will be populated by JS -->
             </div>
         </div>
 
@@ -439,28 +466,18 @@
 
             loadFromLocalStorage();
 
-            // Mobile menu functionality
-            const menuToggle = document.getElementById('menuToggle');
-            const closeMenu = document.getElementById('closeMenu');
-            const mobileMenu = document.querySelector('.mobile-menu');
-            const mobileMenuContent = mobileMenu.querySelector('.p-4');
-
-            function toggleMenu() {
-                mobileMenu.classList.toggle('active');
-                document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-            }
-
-            menuToggle.addEventListener('click', toggleMenu);
-            closeMenu.addEventListener('click', toggleMenu);
-
-            // Clone sidebar buttons for mobile menu
-            const sidebarButtons = document.querySelectorAll("aside button");
+            // Replace mobile menu functionality with new mobile topics view
+            const mobileTopicsContainer = document.querySelector('.module-topics-mobile .space-y-2');
+            
+            // Clone sidebar buttons for mobile view
+            const sidebarButtons = document.querySelectorAll("aside .space-y-2 button");
             sidebarButtons.forEach(button => {
                 const clone = button.cloneNode(true);
-                mobileMenuContent.appendChild(clone);
+                mobileTopicsContainer.appendChild(clone);
                 clone.addEventListener('click', function() {
-                    toggleMenu();
-                    button.click();
+                    // Find the corresponding desktop button and trigger its click
+                    const index = Array.from(sidebarButtons).indexOf(button);
+                    sidebarButtons[index].click();
                 });
             });
 
