@@ -80,53 +80,153 @@
             50% { opacity: 1; }
             100% { opacity: 0.6; }
         }
+
+        /* Mobile Swipe Menu Styles */
+        .mobile-swipe-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            height: 100vh;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 50;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .mobile-swipe-menu.active {
+            transform: translateX(0);
+        }
+
+        .swipe-indicator {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            width: 4px;
+            height: 40px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 2px;
+        }
+
+        .menu-sections {
+            display: flex;
+            overflow-x: hidden;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .menu-section {
+            min-width: 100%;
+            scroll-snap-align: start;
+            padding: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-menu { display: none; }
+            .mobile-header {
+                position: sticky;
+                top: 0;
+                z-index: 40;
+                background: white;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Hide desktop elements on mobile */
+            .desktop-menu,
+            .sidebar {
+                display: none !important;
+            }
+            
+            /* Adjust main content margin */
+            .ml-64 {
+                margin-left: 0 !important;
+            }
+            
+            /* Mobile header adjustments */
+            .mobile-header {
+                padding: 0.5rem 1rem;
+            }
+            
+            .mobile-header .flex {
+                justify-content: space-between;
+            }
+            
+            /* Mobile menu improvements */
+            .mobile-swipe-menu {
+                width: 100%;
+                max-width: none;
+            }
+            
+            .menu-section {
+                padding: 1.5rem;
+            }
+            
+            .menu-section a {
+                padding: 1rem;
+                margin-bottom: 0.5rem;
+                border-radius: 0.5rem;
+                display: flex;
+                align-items: center;
+                font-size: 1.1rem;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50 font-[Inter]"><div class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 border-r border-gray-200"><div class="p-6"><div class="flex items-center mb-8"><img class="h-8 w-auto" src="./images/Red Modern Business Card.png" alt="Logo"/></div><nav class="space-y-4"><a href="#" class="flex items-center px-4 py-2 text-sm font-medium text-blue-500 bg-blue-50 rounded-lg"><i class="fas fa-home mr-3"></i>Dashboard</a><a href="./frontendpage.html" class="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"><i class="fas fa-book mr-3"></i>Courses</a><a href="./path.html" class="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"><i class="fas fa-road mr-3"></i>Learning Paths</a><a href="./projects.html" class="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"><i class="fas fa-project-diagram mr-3"></i>Projects</a><a href="./community.html" class="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"><i class="fas fa-users mr-3"></i>Community</a><a href="#" class="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"><i class="fas fa-cog mr-3"></i>Settings</a></nav></div></div>
     <div class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden" id="sidebarOverlay"></div>
     
-    <nav class="bg-white shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+    <nav class="bg-white shadow-sm mobile-header">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex items-center justify-between h-16">
+            <!-- Logo and title -->
             <div class="flex items-center">
-                <!-- Mobile menu button -->
-                <button id="sidebarToggle" class="md:hidden touch-target p-2 rounded-md hover:bg-gray-100">
-                    <i class="fas fa-bars"></i>
-                </button>
                 <img class="h-8 w-auto" src="./images/Red Modern Business Card.png" alt="Mentneo">
                 <span class="ml-2 text-xl font-bold">Mentneo</span>
             </div>
-            <!-- Mobile menu button -->
-            <div class="md:hidden">
-                <button type="button" class="mobile-menu-button p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100">
+            
+            <!-- Mobile controls -->
+            <div class="flex items-center space-x-4">
+                <button id="mobileMenuBtn" class="md:hidden p-2 rounded-md text-gray-400 hover:text-gray-500">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
+                <button id="darkModeToggle" class="touch-target p-2 rounded-md">
+                    <i class="fas fa-moon"></i>
+                </button>
             </div>
-            <!-- Desktop menu -->
-            <div class="hidden md:flex items-center space-x-4 desktop-menu">
-                <a href="courceindex.html" class="text-gray-700 hover:text-blue-600">Home</a>
-                <a href="interviewfrontend.html" class="text-gray-700 hover:text-blue-600">Interview Questions</a>
-                <a href="assignmenntpage.html" class="text-gray-700 hover:text-blue-600">Assignments</a>
-                <a href="community.html" class="text-gray-700 hover:text-blue-600">Community</a>
-                <a href="projects.html" class="text-gray-700 hover:text-blue-600">Projects</a>
-            </div>
-            <!-- Dark mode toggle -->
-            <button id="darkModeToggle" class="touch-target p-2 rounded-md">
-                <i class="fas fa-moon"></i>
-            </button>
-        </div>
-    </div>
-    <!-- Mobile menu panel -->
-    <div class="mobile-menu md:hidden">
-        <div class="px-2 pt-2 pb-3 space-y-1 bg-white">
-            <a href="courceindex.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Home</a>
-            <a href="interviewfrontend.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Interview Questions</a>
-            <a href="assignmenntpage.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Assignments</a>
-            <a href="community.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Community</a>
-            <a href="projects.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Projects</a>
         </div>
     </div>
 </nav>
+
+<!-- New Mobile Swipe Menu -->
+<div class="mobile-swipe-menu md:hidden">
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Menu</h2>
+        <button class="close-menu p-2">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <div class="menu-sections">
+        <div class="menu-section">
+            <h3 class="text-sm font-semibold text-gray-600 mb-4">Navigation</h3>
+            <div class="space-y-4">
+                <a href="courceindex.html" class="block py-2 px-4 rounded-lg bg-gray-50 hover:bg-gray-100">
+                    <i class="fas fa-home mr-2"></i>Home
+                </a>
+                <a href="interviewfrontend.html" class="block py-2 px-4 rounded-lg bg-gray-50 hover:bg-gray-100">
+                    <i class="fas fa-question-circle mr-2"></i>Interview Questions
+                </a>
+                <a href="assignmenntpage.html" class="block py-2 px-4 rounded-lg bg-gray-50 hover:bg-gray-100">
+                    <i class="fas fa-tasks mr-2"></i>Assignments
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="swipe-indicator"></div>
+</div>
 
     <main class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12 ml-64">
         <div class="text-center mb-16">
@@ -471,6 +571,68 @@
         // Simulate loading state
         showLoadingState();
         setTimeout(hideLoadingState, 1000);
+
+        // Mobile Swipe Menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileSwipeMenu = document.querySelector('.mobile-swipe-menu');
+        const closeMenuBtn = document.querySelector('.close-menu');
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        function handleSwipe() {
+            if (touchStartX - touchEndX > 100) {
+                // Swipe left - close menu
+                mobileSwipeMenu.classList.remove('active');
+            }
+            if (touchEndX - touchStartX > 100) {
+                // Swipe right - open menu
+                mobileSwipeMenu.classList.add('active');
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileSwipeMenu.classList.add('active');
+            document.body.classList.toggle('overflow-hidden');
+        });
+
+        closeMenuBtn.addEventListener('click', () => {
+            mobileSwipeMenu.classList.remove('active');
+            document.body.classList.remove('overflow-hidden');
+        });
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileSwipeMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                mobileSwipeMenu.classList.remove('active');
+                document.body.classList.remove('overflow-hidden');
+            }
+        });
+
+        // Add loading animation for menu transitions
+        function addMenuTransition() {
+            const menuItems = document.querySelectorAll('.menu-section a');
+            menuItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-20px)';
+                item.style.transition = `all 0.3s ease ${index * 0.1}s`;
+                
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, 100);
+            });
+        }
+
+        mobileMenuBtn.addEventListener('click', addMenuTransition);
     });
 </script>
 
