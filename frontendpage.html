@@ -53,21 +53,89 @@
 
         /* Dark Mode */
         .dark-mode {
-            background-color: #1a1a1a;
-            color: #ffffff;
+            background-color: #121212;
+            color: #e5e5e5;
         }
 
         .dark-mode .bg-white {
-            background-color: #2d2d2d;
-            color: #ffffff;
+            background-color: #1e1e1e;
+            border-color: #333;
         }
 
-        .dark-mode .text-gray-900 {
-            color: #ffffff;
+        .dark-mode .text-gray-900 { color: #ffffff; }
+        .dark-mode .text-gray-700 { color: #d1d5db; }
+        .dark-mode .text-gray-600 { color: #9ca3af; }
+        .dark-mode .text-gray-500 { color: #6b7280; }
+        
+        .dark-mode .border-gray-200 { border-color: #333; }
+        .dark-mode .shadow { box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+        
+        /* Updated Mobile Styles */
+        @media (max-width: 768px) {
+            .course-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .nav-bottom {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: var(--bg-color, white);
+                border-top: 1px solid var(--border-color, #e5e5e5);
+                padding: 0.5rem;
+                display: flex;
+                justify-content: space-around;
+                z-index: 50;
+            }
+
+            .nav-bottom a {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 0.5rem;
+                color: var(--text-color, #4b5563);
+                font-size: 0.75rem;
+            }
+
+            .nav-bottom a i {
+                font-size: 1.25rem;
+                margin-bottom: 0.25rem;
+            }
+
+            .nav-bottom a.active {
+                color: var(--accent-color, #2563eb);
+            }
+
+            .main-content {
+                padding-bottom: 5rem;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .ml-64 {
+                margin-left: 0 !important;
+            }
         }
 
-        .dark-mode .text-gray-500 {
-            color: #a0aec0;
+        /* Dark mode variables */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #4b5563;
+            --border-color: #e5e5e5;
+            --accent-color: #2563eb;
+        }
+
+        .dark-mode {
+            --bg-color: #1e1e1e;
+            --text-color: #e5e5e5;
+            --border-color: #333;
+            --accent-color: #3b82f6;
         }
 
         /* Loading Animation */
@@ -132,50 +200,80 @@
                 background: white;
             }
         }
+
+        /* Remove sidebar and update mobile styles */
+        @media (max-width: 768px) {
+            .sidebar, #sidebarOverlay, .desktop-menu {
+                display: none !important;
+            }
+
+            .ml-64 {
+                margin-left: 0 !important;
+            }
+
+            /* Mobile Navigation Bar */
+            .mobile-nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: var(--bg-color, white);
+                border-top: 1px solid var(--border-color, #e5e5e5);
+                padding: 0.75rem 0.5rem;
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 0.5rem;
+                z-index: 50;
+            }
+
+            .mobile-nav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 0.5rem;
+                color: var(--text-color, #4b5563);
+                font-size: 0.75rem;
+                text-decoration: none;
+                transition: color 0.2s;
+            }
+
+            .mobile-nav-item i {
+                font-size: 1.25rem;
+                margin-bottom: 0.25rem;
+            }
+
+            .mobile-nav-item.active {
+                color: var(--accent-color, #2563eb);
+            }
+
+            .main-content {
+                padding-bottom: 5rem !important;
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-50 font-[Inter]"><div class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 border-r border-gray-200"><div class="p-6"><div class="flex items-center mb-8"><img class="h-8 w-auto" src="./images/Red Modern Business Card.png" alt="Logo"/></div><nav class="space-y-4"><a href="#" class="flex items-center px-4 py-2 text-sm font-medium text-blue-500 bg-blue-50 rounded-lg"><i class="fas fa-home mr-3"></i>Dashboard</a><a href="./frontendpage.html" class="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"><i class="fas fa-book mr-3"></i>Courses</a><a href="./path.html" class="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"><i class="fas fa-road mr-3"></i>Learning Paths</a><a href="./projects.html" class="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"><i class="fas fa-project-diagram mr-3"></i>Projects</a><a href="./community.html" class="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"><i class="fas fa-users mr-3"></i>Community</a><a href="#" class="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"><i class="fas fa-cog mr-3"></i>Settings</a></nav></div></div>
+<body class="bg-gray-50 font-[Inter]">
     <div class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden" id="sidebarOverlay"></div>
     
-    <nav class="bg-white shadow-sm mobile-header">
+    <nav class="bg-white shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex items-center">
-                <!-- Mobile menu button -->
-                <button id="sidebarToggle" class="md:hidden touch-target p-2 rounded-md hover:bg-gray-100">
-                    <i class="fas fa-bars"></i>
-                </button>
                 <img class="h-8 w-auto" src="./images/Red Modern Business Card.png" alt="Mentneo">
                 <span class="ml-2 text-xl font-bold">Mentneo</span>
             </div>
-            <!-- Mobile menu button -->
-            <div class="md:hidden">
-                <button type="button" id="mobileMenuBtn" class="md:hidden p-2 rounded-md text-gray-400 hover:text-gray-500">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-            </div>
             <!-- Desktop menu -->
-            <div class="hidden md:flex items-center space-x-4 desktop-menu">
+            <div class="hidden md:flex items-center space-x-4">
                 <a href="courceindex.html" class="text-gray-700 hover:text-blue-600">Home</a>
                 <a href="interviewfrontend.html" class="text-gray-700 hover:text-blue-600">Interview Questions</a>
                 <a href="assignmenntpage.html" class="text-gray-700 hover:text-blue-600">Assignments</a>
                 <a href="community.html" class="text-gray-700 hover:text-blue-600">Community</a>
                 <a href="projects.html" class="text-gray-700 hover:text-blue-600">Projects</a>
             </div>
-            <!-- Dark mode toggle -->
-            <button id="darkModeToggle" class="touch-target p-2 rounded-md">
+            <button id="darkModeToggle" class="p-2">
                 <i class="fas fa-moon"></i>
             </button>
-        </div>
-    </div>
-    <!-- Mobile menu panel -->
-    <div class="mobile-menu md:hidden">
-        <div class="px-2 pt-2 pb-3 space-y-1 bg-white">
-            <a href="courceindex.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Home</a>
-            <a href="interviewfrontend.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Interview Questions</a>
-            <a href="assignmenntpage.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Assignments</a>
-            <a href="community.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Community</a>
-            <a href="projects.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Projects</a>
         </div>
     </div>
 </nav>
@@ -184,7 +282,7 @@
 <div class="mobile-swipe-menu md:hidden">
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-semibold">Menu</h2>
-        <button class="close-menu p-2">
+        <button class="close-menu p-2"></button>
             <i class="fas fa-times"></i>
         </button>
     </div>
@@ -410,6 +508,29 @@
         </div>
     </main>
 
+    <div class="mobile-nav md:hidden">
+        <a href="courceindex.html" class="mobile-nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="interviewfrontend.html" class="mobile-nav-item">
+            <i class="fas fa-question-circle"></i>
+            <span>Interview</span>
+        </a>
+        <a href="assignmenntpage.html" class="mobile-nav-item">
+            <i class="fas fa-tasks"></i>
+            <span>Assignments</span>
+        </a>
+        <a href="community.html" class="mobile-nav-item">
+            <i class="fas fa-users"></i>
+            <span>Community</span>
+        </a>
+        <a href="projects.html" class="mobile-nav-item">
+            <i class="fas fa-project-diagram"></i>
+            <span>Projects</span>
+        </a>
+    </div>
+
     <footer class="bg-gray-50 border-t border-gray-200 mt-16">
         <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -610,6 +731,59 @@
         }
 
         mobileMenuBtn.addEventListener('click', addMenuTransition);
+
+        // Update dark mode toggle functionality
+        const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        function setDarkMode(isDark) {
+            document.body.classList.toggle('dark-mode', isDark);
+            localStorage.setItem('darkMode', isDark);
+            darkModeToggle.innerHTML = `<i class="fas fa-${isDark ? 'sun' : 'moon'}"></i>`;
+            
+            // Update mobile nav colors
+            document.querySelector('.nav-bottom').style.setProperty(
+                '--bg-color',
+                isDark ? '#1e1e1e' : '#ffffff'
+            );
+        }
+
+        // Initialize dark mode
+        const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+        setDarkMode(savedDarkMode || prefersDarkMode.matches);
+
+        // Toggle dark mode
+        darkModeToggle.addEventListener('click', () => {
+            setDarkMode(!document.body.classList.contains('dark-mode'));
+        });
+
+        // Listen for system dark mode changes
+        prefersDarkMode.addEventListener('change', (e) => {
+            if (localStorage.getItem('darkMode') === null) {
+                setDarkMode(e.matches);
+            }
+        });
+
+        // Active state for mobile navigation
+        const currentPath = window.location.pathname;
+        document.querySelectorAll('.nav-bottom a').forEach(link => {
+            if (currentPath.includes(link.getAttribute('href'))) {
+                link.classList.add('active');
+            }
+        });
+
+        // Update mobile navigation active state
+        const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+
+        mobileNavItems.forEach(item => {
+            if (currentPath.includes(item.getAttribute('href'))) {
+                item.classList.add('active');
+            }
+            
+            item.addEventListener('click', function() {
+                mobileNavItems.forEach(navItem => navItem.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
     });
 </script>
 
