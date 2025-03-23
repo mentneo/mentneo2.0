@@ -113,7 +113,113 @@
                 border-top: 1px solid #404040;
             }
         }
+
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .fixed.inset-y-0.left-0.w-64 {
+                display: none; /* Hide left sidebar */
+            }
+
+            main {
+                margin-left: 0 !important; /* Remove left margin */
+            }
+
+            .ml-64 {
+                margin-left: 0 !important;
+            }
+
+            .max-w-8xl {
+                padding: 0 1rem;
+            }
+
+            .video-container {
+                position: sticky;
+                top: 0;
+                z-index: 30;
+                background: white;
+                margin: -1rem -1rem 1rem -1rem;
+            }
+
+            .aspect-w-16.aspect-h-9 {
+                margin-bottom: 0;
+            }
+
+            /* Bottom sheet for module topics */
+            .module-topics {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 1rem;
+                box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+                border-top-left-radius: 1rem;
+                border-top-right-radius: 1rem;
+                transform: translateY(calc(100% - 50px));
+                transition: transform 0.3s ease;
+                z-index: 40;
+            }
+
+            .module-topics.expanded {
+                transform: translateY(0);
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+
+            .module-topics-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+            }
+
+            .module-topics-toggle {
+                padding: 0.5rem;
+                transition: transform 0.3s ease;
+            }
+
+            .module-topics.expanded .module-topics-toggle {
+                transform: rotate(180deg);
+            }
+
+            /* Hide desktop sidebar */
+            aside.w-80 {
+                display: none;
+            }
+        }
     </style>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Learn HTML fundamentals with Mentneo's comprehensive HTML module. Master HTML elements, document structure, and web page creation." />
+    <meta name="keywords" content="HTML tutorial, learn HTML, web development, HTML basics, HTML5, coding" />
+    <meta name="author" content="Mentneo Learning Platform" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="HTML Module 1 - Introduction to HTML | Mentneo" />
+    <meta property="og:description" content="Start your web development journey with HTML basics. Learn document structure, elements, and tags." />
+    <meta property="og:image" content="https://mentneo.com/images/html-module-og.png" />
+    <meta property="og:url" content="https://mentneo.com/modules/html-module/module1" />
+    <meta property="og:type" content="article" />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LearningResource",
+        "name": "HTML Module 1 - Introduction",
+        "description": "Introduction to HTML basics and fundamentals",
+        "educationalLevel": "Beginner",
+        "learningResourceType": "Video Tutorial",
+        "timeRequired": "PT1H",
+        "isPartOf": {
+            "@type": "Course",
+            "name": "Frontend Development Path",
+            "provider": {
+                "@type": "Organization",
+                "name": "Mentneo Learning Platform"
+            }
+        }
+    }
+    </script>
 </head>
 
 <body class="bg-gray-50 font-[&#39;Inter&#39;]">
@@ -237,6 +343,17 @@
                 <!-- Remove navigation buttons from footer -->
             </div>
         </footer>
+    </div>
+    <div class="module-topics md:hidden">
+        <div class="module-topics-header">
+            <h3 class="font-semibold">Module Topics</h3>
+            <button class="module-topics-toggle">
+                <i class="fas fa-chevron-up"></i>
+            </button>
+        </div>
+        <div class="module-topics-content">
+            <!-- Will be populated by JS -->
+        </div>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -648,6 +765,34 @@
                 window.location.href = '../html module/module2videopage.html';
             } else {
                 alert('Please complete all topics in this module first.');
+            }
+        });
+
+        // Mobile topics panel functionality
+        const moduleTopics = document.querySelector('.module-topics');
+        const topicsToggle = document.querySelector('.module-topics-toggle');
+        const topicsContent = document.querySelector('.module-topics-content');
+
+        // Clone desktop topics for mobile
+        const desktopTopics = document.querySelectorAll('aside .space-y-2 button');
+        desktopTopics.forEach(topic => {
+            const clone = topic.cloneNode(true);
+            topicsContent.appendChild(clone);
+            
+            clone.addEventListener('click', () => {
+                const index = Array.from(desktopTopics).indexOf(topic);
+                desktopTopics[index].click();
+            });
+        });
+
+        topicsToggle.addEventListener('click', () => {
+            moduleTopics.classList.toggle('expanded');
+        });
+
+        // Hide topics panel when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!moduleTopics.contains(e.target) && moduleTopics.classList.contains('expanded')) {
+                moduleTopics.classList.remove('expanded');
             }
         });
     </script>

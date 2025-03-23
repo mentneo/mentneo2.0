@@ -8,6 +8,48 @@
     <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
     <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Learn frontend development with Mentneo's comprehensive courses. Master HTML, CSS, JavaScript, React and more with hands-on projects and expert guidance." />
+    <meta name="keywords" content="frontend development, web development, HTML, CSS, JavaScript, React, coding bootcamp, online courses" />
+    <meta name="author" content="Mentneo Learning Platform" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Frontend Development Courses | Mentneo Learning Platform" />
+    <meta property="og:description" content="Master modern web development with our comprehensive curriculum. Start from basics and progress to advanced concepts." />
+    <meta property="og:image" content="https://mentneo.com/images/og-image.png" />
+    <meta property="og:url" content="https://mentneo.com/frontendpage" />
+    <meta property="og:type" content="website" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Frontend Development Courses | Mentneo" />
+    <meta name="twitter:description" content="Learn frontend development from experts. Practical projects and real-world applications." />
+    <meta name="twitter:image" content="https://mentneo.com/images/twitter-card.png" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://mentneo.com/frontendpage" />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Frontend Development Path",
+        "description": "Comprehensive frontend development curriculum covering HTML, CSS, JavaScript and modern frameworks",
+        "provider": {
+            "@type": "Organization",
+            "name": "Mentneo Learning Platform",
+            "sameAs": "https://mentneo.com"
+        },
+        "coursePrerequisites": "Basic computer knowledge",
+        "numberOfCredits": "Not applicable",
+        "occupationalCredentialAwarded": "Frontend Development Certificate",
+        "educationalLevel": "Beginner to Advanced",
+        "teaches": ["HTML", "CSS", "JavaScript", "React", "Web Development"]
+    }
+    </script>
+
     <style>
         .mobile-menu { display: none; }
         .mobile-menu.active { display: block; }
@@ -15,9 +57,247 @@
         @media (max-width: 768px) {
             .desktop-menu { display: none; }
         }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .ml-64 { margin-left: 0; }
+            
+            .grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .text-4xl {
+                font-size: 2rem;
+            }
+            
+            .text-xl {
+                font-size: 1.1rem;
+            }
+
+            .p-6 {
+                padding: 1rem;
+            }
+
+            .touch-target {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+
+        /* Sidebar Animation */
+        .sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        /* Dark Mode */
+        .dark-mode {
+            background-color: #121212;
+            color: #e5e5e5;
+        }
+
+        .dark-mode .bg-white {
+            background-color: #1e1e1e;
+            border-color: #333;
+        }
+
+        .dark-mode .text-gray-900 { color: #ffffff; }
+        .dark-mode .text-gray-700 { color: #d1d5db; }
+        .dark-mode .text-gray-600 { color: #9ca3af; }
+        .dark-mode .text-gray-500 { color: #6b7280; }
+        
+        .dark-mode .border-gray-200 { border-color: #333; }
+        .dark-mode .shadow { box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+        
+        /* Updated Mobile Styles */
+        @media (max-width: 768px) {
+            .course-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .nav-bottom {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: var(--bg-color, white);
+                border-top: 1px solid var(--border-color, #e5e5e5);
+                padding: 0.5rem;
+                display: flex;
+                justify-content: space-around;
+                z-index: 50;
+            }
+
+            .nav-bottom a {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 0.5rem;
+                color: var(--text-color, #4b5563);
+                font-size: 0.75rem;
+            }
+
+            .nav-bottom a i {
+                font-size: 1.25rem;
+                margin-bottom: 0.25rem;
+            }
+
+            .nav-bottom a.active {
+                color: var(--accent-color, #2563eb);
+            }
+
+            .main-content {
+                padding-bottom: 5rem;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .ml-64 {
+                margin-left: 0 !important;
+            }
+        }
+
+        /* Dark mode variables */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #4b5563;
+            --border-color: #e5e5e5;
+            --accent-color: #2563eb;
+        }
+
+        .dark-mode {
+            --bg-color: #1e1e1e;
+            --text-color: #e5e5e5;
+            --border-color: #333;
+            --accent-color: #3b82f6;
+        }
+
+        /* Loading Animation */
+        .card-skeleton {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        /* Mobile Swipe Menu Styles */
+        .mobile-swipe-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            height: 100vh;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 50;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .mobile-swipe-menu.active {
+            transform: translateX(0);
+        }
+
+        .swipe-indicator {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            width: 4px;
+            height: 40px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 2px;
+        }
+
+        .menu-sections {
+            display: flex;
+            overflow-x: hidden;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .menu-section {
+            min-width: 100%;
+            scroll-snap-align: start;
+            padding: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-menu { display: none; }
+            .mobile-header {
+                position: sticky;
+                top: 0;
+                z-index: 40;
+                background: white;
+            }
+        }
+
+        /* Remove sidebar and update mobile styles */
+        @media (max-width: 768px) {
+            .sidebar, #sidebarOverlay, .desktop-menu {
+                display: none !important;
+            }
+
+            .ml-64 {
+                margin-left: 0 !important;
+            }
+
+            /* Mobile Navigation Bar */
+            .mobile-nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: var(--bg-color, white);
+                border-top: 1px solid var(--border-color, #e5e5e5);
+                padding: 0.75rem 0.5rem;
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 0.5rem;
+                z-index: 50;
+            }
+
+            .mobile-nav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 0.5rem;
+                color: var(--text-color, #4b5563);
+                font-size: 0.75rem;
+                text-decoration: none;
+                transition: color 0.2s;
+            }
+
+            .mobile-nav-item i {
+                font-size: 1.25rem;
+                margin-bottom: 0.25rem;
+            }
+
+            .mobile-nav-item.active {
+                color: var(--accent-color, #2563eb);
+            }
+
+            .main-content {
+                padding-bottom: 5rem !important;
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-50 font-[Inter]"><div class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 border-r border-gray-200"><div class="p-6"><div class="flex items-center mb-8"><img class="h-8 w-auto" src="./images/Red Modern Business Card.png" alt="Logo"/></div><nav class="space-y-4"><a href="#" class="flex items-center px-4 py-2 text-sm font-medium text-blue-500 bg-blue-50 rounded-lg"><i class="fas fa-home mr-3"></i>Dashboard</a><a href="./frontendpage.html" class="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"><i class="fas fa-book mr-3"></i>Courses</a><a href="./path.html" class="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"><i class="fas fa-road mr-3"></i>Learning Paths</a><a href="./projects.html" class="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"><i class="fas fa-project-diagram mr-3"></i>Projects</a><a href="./community.html" class="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"><i class="fas fa-users mr-3"></i>Community</a><a href="#" class="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"><i class="fas fa-cog mr-3"></i>Settings</a></nav></div></div>
+<body class="bg-gray-50 font-[Inter]">
+    <div class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden" id="sidebarOverlay"></div>
+    
     <nav class="bg-white shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -25,33 +305,48 @@
                 <img class="h-8 w-auto" src="./images/Red Modern Business Card.png" alt="Mentneo">
                 <span class="ml-2 text-xl font-bold">Mentneo</span>
             </div>
-            <!-- Mobile menu button -->
-            <div class="md:hidden">
-                <button type="button" class="mobile-menu-button p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-            </div>
             <!-- Desktop menu -->
-            <div class="hidden md:flex items-center space-x-4 desktop-menu">
+            <div class="hidden md:flex items-center space-x-4">
                 <a href="courceindex.html" class="text-gray-700 hover:text-blue-600">Home</a>
                 <a href="interviewfrontend.html" class="text-gray-700 hover:text-blue-600">Interview Questions</a>
                 <a href="assignmenntpage.html" class="text-gray-700 hover:text-blue-600">Assignments</a>
                 <a href="community.html" class="text-gray-700 hover:text-blue-600">Community</a>
                 <a href="projects.html" class="text-gray-700 hover:text-blue-600">Projects</a>
             </div>
-        </div>
-    </div>
-    <!-- Mobile menu panel -->
-    <div class="mobile-menu md:hidden">
-        <div class="px-2 pt-2 pb-3 space-y-1 bg-white">
-            <a href="courceindex.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Home</a>
-            <a href="interviewfrontend.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Interview Questions</a>
-            <a href="assignmenntpage.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Assignments</a>
-            <a href="community.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Community</a>
-            <a href="projects.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Projects</a>
+            <button id="darkModeToggle" class="p-2">
+                <i class="fas fa-moon"></i>
+            </button>
         </div>
     </div>
 </nav>
+
+<!-- New Mobile Swipe Menu -->
+<div class="mobile-swipe-menu md:hidden">
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Menu</h2>
+        <button class="close-menu p-2"></button>
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <div class="menu-sections">
+        <div class="menu-section">
+            <h3 class="text-sm font-semibold text-gray-600 mb-4">Navigation</h3>
+            <div class="space-y-4">
+                <a href="courceindex.html" class="block py-2 px-4 rounded-lg bg-gray-50 hover:bg-gray-100">
+                    <i class="fas fa-home mr-2"></i>Home
+                </a>
+                <a href="interviewfrontend.html" class="block py-2 px-4 rounded-lg bg-gray-50 hover:bg-gray-100">
+                    <i class="fas fa-question-circle mr-2"></i>Interview Questions
+                </a>
+                <a href="assignmenntpage.html" class="block py-2 px-4 rounded-lg bg-gray-50 hover:bg-gray-100">
+                    <i class="fas fa-tasks mr-2"></i>Assignments
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="swipe-indicator"></div>
+</div>
 
     <main class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12 ml-64">
         <div class="text-center mb-16">
@@ -255,6 +550,29 @@
         </div>
     </main>
 
+    <div class="mobile-nav md:hidden">
+        <a href="courceindex.html" class="mobile-nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="interviewfrontend.html" class="mobile-nav-item">
+            <i class="fas fa-question-circle"></i>
+            <span>Interview</span>
+        </a>
+        <a href="assignmenntpage.html" class="mobile-nav-item">
+            <i class="fas fa-tasks"></i>
+            <span>Assignments</span>
+        </a>
+        <a href="community.html" class="mobile-nav-item">
+            <i class="fas fa-users"></i>
+            <span>Community</span>
+        </a>
+        <a href="projects.html" class="mobile-nav-item">
+            <i class="fas fa-project-diagram"></i>
+            <span>Projects</span>
+        </a>
+    </div>
+
     <footer class="bg-gray-50 border-t border-gray-200 mt-16">
         <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -306,6 +624,208 @@
         if (!menuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
             mobileMenu.classList.remove('active');
         }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const overlay = document.getElementById('sidebarOverlay');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        
+        // Sidebar Toggle
+        function toggleSidebar() {
+            sidebar.classList.toggle('hidden');
+            overlay.classList.toggle('hidden');
+            document.body.classList.toggle('overflow-hidden');
+        }
+        
+        sidebarToggle.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
+        // Dark Mode Toggle
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            darkModeToggle.innerHTML = `<i class="fas fa-${isDark ? 'sun' : 'moon'}"></i>`;
+        }
+        
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+
+        // Lazy Loading Images
+        const images = document.querySelectorAll('img[data-src]');
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+        
+        images.forEach(img => imageObserver.observe(img));
+
+        // Performance Optimization
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Optimize resize events
+        window.addEventListener('resize', debounce(() => {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('hidden');
+                overlay.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }
+        }, 100));
+
+        // Add loading skeletons
+        function showLoadingState() {
+            const cards = document.querySelectorAll('.course-card');
+            cards.forEach(card => {
+                card.classList.add('card-skeleton');
+            });
+        }
+
+        function hideLoadingState() {
+            const cards = document.querySelectorAll('.course-card');
+            cards.forEach(card => {
+                card.classList.remove('card-skeleton');
+            });
+        }
+
+        // Simulate loading state
+        showLoadingState();
+        setTimeout(hideLoadingState, 1000);
+
+        // Mobile Swipe Menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileSwipeMenu = document.querySelector('.mobile-swipe-menu');
+        const closeMenuBtn = document.querySelector('.close-menu');
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        function handleSwipe() {
+            if (touchStartX - touchEndX > 100) {
+                // Swipe left - close menu
+                mobileSwipeMenu.classList.remove('active');
+            }
+            if (touchEndX - touchStartX > 100) {
+                // Swipe right - open menu
+                mobileSwipeMenu.classList.add('active');
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileSwipeMenu.classList.add('active');
+        });
+
+        closeMenuBtn.addEventListener('click', () => {
+            mobileSwipeMenu.classList.remove('active');
+        });
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileSwipeMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                mobileSwipeMenu.classList.remove('active');
+            }
+        });
+
+        // Add loading animation for menu transitions
+        function addMenuTransition() {
+            const menuItems = document.querySelectorAll('.menu-section a');
+            menuItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-20px)';
+                item.style.transition = `all 0.3s ease ${index * 0.1}s`;
+                
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, 100);
+            });
+        }
+
+        mobileMenuBtn.addEventListener('click', addMenuTransition);
+
+        // Update dark mode toggle functionality
+        const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        function setDarkMode(isDark) {
+            document.body.classList.toggle('dark-mode', isDark);
+            localStorage.setItem('darkMode', isDark);
+            darkModeToggle.innerHTML = `<i class="fas fa-${isDark ? 'sun' : 'moon'}"></i>`;
+            
+            // Update mobile nav colors
+            document.querySelector('.nav-bottom').style.setProperty(
+                '--bg-color',
+                isDark ? '#1e1e1e' : '#ffffff'
+            );
+        }
+
+        // Initialize dark mode
+        const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+        setDarkMode(savedDarkMode || prefersDarkMode.matches);
+
+        // Toggle dark mode
+        darkModeToggle.addEventListener('click', () => {
+            setDarkMode(!document.body.classList.contains('dark-mode'));
+        });
+
+        // Listen for system dark mode changes
+        prefersDarkMode.addEventListener('change', (e) => {
+            if (localStorage.getItem('darkMode') === null) {
+                setDarkMode(e.matches);
+            }
+        });
+
+        // Active state for mobile navigation
+        const currentPath = window.location.pathname;
+        document.querySelectorAll('.nav-bottom a').forEach(link => {
+            if (currentPath.includes(link.getAttribute('href'))) {
+                link.classList.add('active');
+            }
+        });
+
+        // Update mobile navigation active state
+        const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+
+        mobileNavItems.forEach(item => {
+            if (currentPath.includes(item.getAttribute('href'))) {
+                item.classList.add('active');
+            }
+            
+            item.addEventListener('click', function() {
+                mobileNavItems.forEach(navItem => navItem.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
     });
 </script>
 
