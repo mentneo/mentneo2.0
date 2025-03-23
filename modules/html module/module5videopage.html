@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HTML Module - 5 | Learning Platform</title>
+    <title>HTML MODULE - 5 | Learning Platform</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
         rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
@@ -13,6 +13,107 @@
         src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
     <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#2563EB"
         data-border-radius="small"></script>
+    <style>
+        /* Mobile menu styles */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            max-width: 300px;
+            background: white;
+            z-index: 50;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .dark-mode {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+
+        .dark-mode .bg-white {
+            background-color: #2d2d2d;
+            color: #ffffff;
+        }
+
+        .dark-mode .text-gray-900 {
+            color: #ffffff;
+        }
+
+        .dark-mode .text-gray-600 {
+            color: #a0aec0;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
+
+            aside {
+                display: none;
+            }
+
+            .flex-1.flex {
+                flex-direction: column;
+            }
+
+            .aspect-w-16 {
+                padding-bottom: 56.25%;
+                position: relative;
+            }
+
+            .aspect-w-16 iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .module-topics-mobile {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 1rem;
+                box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+                z-index: 50;
+                border-top-left-radius: 1rem;
+                border-top-right-radius: 1rem;
+                max-height: 60vh;
+                overflow-y: auto;
+            }
+
+            .module-topics-mobile .space-y-2 {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+
+            aside {
+                display: none;
+            }
+
+            main {
+                padding-bottom: 8rem;
+            }
+
+            .dark-mode .module-topics-mobile {
+                background: #2d2d2d;
+                border-top: 1px solid #404040;
+            }
+        }
+    </style>
 </head>
 
 <body class="bg-gray-50 font-[&#39;Inter&#39;]">
@@ -34,15 +135,30 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Add dark mode toggle -->
+                    <button id="darkModeToggle" class="p-2 ml-4">
+                        <i class="fas fa-moon text-gray-600"></i>
+                    </button>
                 </div>
             </div>
         </nav>
+
+        <!-- Add the new mobile topics view -->
+        <div class="module-topics-mobile md:hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold">Module Topics</h2>
+            </div>
+            <div class="space-y-2">
+                <!-- Topics will be populated by JS -->
+            </div>
+        </div>
+
         <div class="flex-1 flex">
             <main class="flex-1 overflow-y-auto bg-white p-8">
                 <div class="max-w-8xl mx-auto">
                     <div class="mb-8 flex justify-between items-center">
                         <div>
-                            <h1 class="text-3xl font-bold text-gray-900">HTML Module - 5</h1>
+                            <h1 class="text-3xl font-bold text-gray-900">HTML MODULE - 5</h1>
                             <p class="mt-2 text-gray-600">Introduction to HTML basics and fundamentals</p>
                         </div>
                         <div class="flex items-center space-x-4">
@@ -349,6 +465,74 @@
             });
 
             loadFromLocalStorage();
+
+            // Replace mobile menu functionality with new mobile topics view
+            const mobileTopicsContainer = document.querySelector('.module-topics-mobile .space-y-2');
+            
+            // Clone sidebar buttons for mobile view
+            const sidebarButtons = document.querySelectorAll("aside .space-y-2 button");
+            sidebarButtons.forEach(button => {
+                const clone = button.cloneNode(true);
+                mobileTopicsContainer.appendChild(clone);
+                clone.addEventListener('click', function() {
+                    // Find the corresponding desktop button and trigger its click
+                    const index = Array.from(sidebarButtons).indexOf(button);
+                    sidebarButtons[index].click();
+                });
+            });
+
+            // Dark mode toggle
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+            function toggleDarkMode() {
+                document.body.classList.toggle('dark-mode');
+                const isDark = document.body.classList.contains('dark-mode');
+                localStorage.setItem('darkMode', isDark);
+                darkModeToggle.innerHTML = `<i class="fas fa-${isDark ? 'sun' : 'moon'} text-gray-600"></i>`;
+            }
+
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun text-gray-600"></i>';
+            }
+
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+
+            // Performance optimizations
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+
+            // Optimize scroll performance
+            const debouncedScroll = debounce(() => {
+                // Handle scroll events
+            }, 16);
+
+            window.addEventListener('scroll', debouncedScroll);
+
+            // Lazy load images
+            const images = document.querySelectorAll('img[data-src]');
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+
+            images.forEach(img => imageObserver.observe(img));
         });
 
         function markModuleAsCompleted() {
@@ -450,7 +634,7 @@
             const currentModule = 0; // Module 1 index
             
             if (completedModules.includes(currentModule)) {
-                window.location.href = '.../main pages/modulespagehtml.html';
+                window.location.href = '../html module/module3videopage.html';
             } else {
                 alert('Please complete all topics in this module first.');
             }
@@ -461,7 +645,7 @@
             const currentModule = 0; // Module 1 index
             
             if (completedModules.includes(currentModule)) {
-                window.location.href = '../main pages/modulespagehtml.html';
+                window.location.href = '../html module/module3videopage.html';
             } else {
                 alert('Please complete all topics in this module first.');
             }
