@@ -12,6 +12,40 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
+    <style>
+        .topic-card {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        .topic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .question-card {
+            transition: all 0.2s ease;
+        }
+        .question-card:hover {
+            border-color: #3b82f6;
+        }
+        .progress-bar {
+            height: 6px;
+            background-color: #dbeafe;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-value {
+            height: 100%;
+            background-color: #3b82f6;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        @media (max-width: 768px) {
+            .grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body class="bg-gray-50">
     <nav class="bg-white shadow-sm">
@@ -25,8 +59,8 @@
                 </div>
                 <div class="flex items-center">
                     <div id="userProfile" class="flex items-center space-x-4">
-                        <span class="text-sm text-gray-700" id="userName"></span>
-                        <img id="userAvatar" class="h-8 w-8 rounded-full" src="" alt="User avatar">
+                        <span class="text-sm text-gray-700" id="userName">Guest</span>
+                        <img id="userAvatar" class="h-8 w-8 rounded-full object-cover" src="https://via.placeholder.com/40" alt="User avatar">
                     </div>
                 </div>
             </div>
@@ -39,39 +73,100 @@
             <p class="text-xl text-gray-600">Master key concepts and ace your interviews</p>
         </div>
 
+        <!-- Your Progress Section -->
+        <div class="mb-12 bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Your Progress</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium text-gray-700">HTML</span>
+                        <span id="htmlPercent" class="text-sm font-semibold text-blue-600">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="htmlProgress" class="progress-value" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium text-gray-700">CSS</span>
+                        <span id="cssPercent" class="text-sm font-semibold text-blue-600">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="cssProgress" class="progress-value" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium text-gray-700">JavaScript</span>
+                        <span id="jsPercent" class="text-sm font-semibold text-blue-600">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="jsProgress" class="progress-value" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Topic Selection -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow cursor-pointer" onclick="selectTopic('html')">
+            <div class="topic-card bg-white rounded-lg shadow-sm p-6 border border-gray-200 hover:shadow-md cursor-pointer" onclick="selectTopic('html')">
                 <div class="flex items-center justify-between mb-4">
                     <div class="h-12 w-12 bg-red-100 rounded-lg flex items-center justify-center">
                         <i class="fab fa-html5 text-2xl text-red-500"></i>
                     </div>
-                    <span id="htmlScore" class="text-sm font-medium text-gray-500">Score: 0/100</span>
+                    <div>
+                        <span id="htmlAnswered" class="text-sm font-medium text-gray-500">0/30 Questions</span>
+                        <div class="text-xs text-gray-400">Last studied: <span id="htmlLastStudied">Never</span></div>
+                    </div>
                 </div>
                 <h3 class="text-lg font-semibold text-gray-900 mb-2">HTML</h3>
                 <p class="text-gray-600">Core concepts and semantic markup</p>
+                <div class="mt-4 flex justify-between items-center">
+                    <button onclick="window.location.href='quiz.html?topic=html'" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                        Take Quiz <i class="fas fa-arrow-right ml-1"></i>
+                    </button>
+                    <span id="htmlScore" class="text-sm font-medium text-gray-500">Score: 0/100</span>
+                </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow cursor-pointer" onclick="selectTopic('css')">
+            <div class="topic-card bg-white rounded-lg shadow-sm p-6 border border-gray-200 hover:shadow-md cursor-pointer" onclick="selectTopic('css')">
                 <div class="flex items-center justify-between mb-4">
                     <div class="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center">
                         <i class="fab fa-css3-alt text-2xl text-blue-500"></i>
                     </div>
-                    <span id="cssScore" class="text-sm font-medium text-gray-500">Score: 0/100</span>
+                    <div>
+                        <span id="cssAnswered" class="text-sm font-medium text-gray-500">0/30 Questions</span>
+                        <div class="text-xs text-gray-400">Last studied: <span id="cssLastStudied">Never</span></div>
+                    </div>
                 </div>
                 <h3 class="text-lg font-semibold text-gray-900 mb-2">CSS</h3>
                 <p class="text-gray-600">Styling and layout techniques</p>
+                <div class="mt-4 flex justify-between items-center">
+                    <button onclick="window.location.href='quiz.html?topic=css'" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                        Take Quiz <i class="fas fa-arrow-right ml-1"></i>
+                    </button>
+                    <span id="cssScore" class="text-sm font-medium text-gray-500">Score: 0/100</span>
+                </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow cursor-pointer" onclick="selectTopic('javascript')">
+            <div class="topic-card bg-white rounded-lg shadow-sm p-6 border border-gray-200 hover:shadow-md cursor-pointer" onclick="selectTopic('javascript')">
                 <div class="flex items-center justify-between mb-4">
                     <div class="h-12 w-12 bg-yellow-100 rounded-lg flex items-center justify-center">
                         <i class="fab fa-js text-2xl text-yellow-500"></i>
                     </div>
-                    <span id="jsScore" class="text-sm font-medium text-gray-500">Score: 0/100</span>
+                    <div>
+                        <span id="jsAnswered" class="text-sm font-medium text-gray-500">0/30 Questions</span>
+                        <div class="text-xs text-gray-400">Last studied: <span id="jsLastStudied">Never</span></div>
+                    </div>
                 </div>
                 <h3 class="text-lg font-semibold text-gray-900 mb-2">JavaScript</h3>
                 <p class="text-gray-600">Core concepts and modern features</p>
+                <div class="mt-4 flex justify-between items-center">
+                    <button onclick="window.location.href='quiz.html?topic=javascript'" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                        Take Quiz <i class="fas fa-arrow-right ml-1"></i>
+                    </button>
+                    <span id="jsScore" class="text-sm font-medium text-gray-500">Score: 0/100</span>
+                </div>
             </div>
         </div>
 
@@ -80,27 +175,20 @@
             <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-2xl font-bold text-gray-900" id="topicTitle"></h2>
-                    <button onclick="startQuiz()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
-                        Start Quiz
-                    </button>
-                </div>
-                <div id="questionsList" class="space-y-6">
-                    <!-- Questions will be loaded here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Quiz Section -->
-        <div id="quizSection" class="hidden">
-            <div class="bg-white rounded-lg shadow-sm p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900">Quiz</h2>
-                    <div class="text-lg font-semibold text-gray-700">
-                        Question <span id="currentQuestion">1</span>/<span id="totalQuestions">10</span>
+                    <div class="flex space-x-4">
+                        <button onclick="markAllAsRead()" class="text-gray-600 hover:text-gray-800 flex items-center">
+                            <i class="fas fa-check-circle mr-2"></i> Mark All Read
+                        </button>
+                        <button onclick="window.location.href='quiz.html?topic=' + currentTopic" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                            Take Quiz <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
                     </div>
                 </div>
-                <div id="quizContent" class="space-y-6">
-                    <!-- Quiz content will be loaded here -->
+                <div class="mb-4">
+                    <input type="text" id="searchQuestions" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Search questions...">
+                </div>
+                <div id="questionsList" class="space-y-4">
+                    <!-- Questions will be loaded here -->
                 </div>
             </div>
         </div>
@@ -123,94 +211,158 @@
         const db = firebase.firestore();
         const auth = firebase.auth();
 
-        // Questions data structure
-        const questions = {
-            html: [
-                {
-                    question: "What is semantic HTML?",
-                    answer: "Semantic HTML uses meaningful tags that describe their content's purpose..."
-                },
-                // Add more HTML questions
-            ],
-            css: [
-                {
-                    question: "Explain the box model in CSS",
-                    answer: "The CSS box model consists of content, padding, border, and margin..."
-                },
-                {
-                    question: "Explain the box model in CSS",
-                    answer: "The CSS box model consists of content, padding, border, and margin..."
-                },{
-                    question: "Explain the box model in CSS",
-                    answer: "The CSS box model consists of content, padding, border, and margin..."
-                },{
-                    question: "Explain the box model in CSS",
-                    answer: "The CSS box model consists of content, padding, border, and margin..."
-                },{
-                    question: "Explain the box model in CSS",
-                    answer: "The CSS box model consists of content, padding, border, and margin..."
-                },{
-                    question: "Explain the box model in CSS",
-                    answer: "The CSS box model consists of content, padding, border, and margin..."
-                },{
-                    question: "Explain the box model in CSS",
-                    answer: "The CSS box model consists of content, padding, border, and margin..."
-                },{
-                    question: "Explain the box model in CSS",
-                    answer: "The CSS box model consists of content, padding, border, and margin..."
-                },{
-                    question: "Explain the box model in CSS",
-                    answer: "The CSS box model consists of content, padding, border, and margin..."
-                },{
-                    question: "Explain the box model in CSS",
-                    answer: "The CSS box model consists of content, padding, border, and margin..."
-                },{
-                    question: "Explain the box model in CSS",
-                    answer: "The CSS box model consists of content, padding, border, and margin..."
-                },{
-                    question: "Explain the box model in CSS",
-                    answer: "The CSS box model consists of content, padding, border, and margin..."
-                },{
-                    question: "Explain the box model in CSS",
-                    answer: "The CSS box model consists of content, padding, border, and margin..."
-                },
-                // Add more CSS questions
-            ],
-            javascript: [
-                {
-                    question: "What is closure in JavaScript?",
-                    answer: "A closure is a function that has access to variables in its outer scope..."
-                },
-                // Add more JavaScript questions
-            ]
-        };
-
         // Current state
         let currentTopic = '';
-        let currentScore = 0;
+        let currentUser = null;
+        let userProgress = {
+            html: { score: 0, answered: 0, lastStudied: null, readQuestions: [] },
+            css: { score: 0, answered: 0, lastStudied: null, readQuestions: [] },
+            javascript: { score: 0, answered: 0, lastStudied: null, readQuestions: [] }
+        };
 
+        // Auth state observer
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('userName').textContent = user.displayName || 'User';
+                document.getElementById('userAvatar').src = user.photoURL || 'https://via.placeholder.com/40';
+                
+                // Load user progress
+                loadUserProgress();
+            } else {
+                // Handle not logged in state
+                console.log("User not logged in");
+            }
+        });
+
+        // Load user progress from Firestore
+        function loadUserProgress() {
+            if (!currentUser) return;
+            
+            db.collection('userProgress').doc(currentUser.uid).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        userProgress = doc.data() || userProgress;
+                        updateProgressUI();
+                    } else {
+                        // Initialize user progress document
+                        db.collection('userProgress').doc(currentUser.uid).set(userProgress);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error loading user progress:", error);
+                });
+        }
+
+        // Update progress UI
+        function updateProgressUI() {
+            // Update HTML progress
+            document.getElementById('htmlScore').textContent = `Score: ${userProgress.html.score}/100`;
+            document.getElementById('htmlAnswered').textContent = `${userProgress.html.answered}/30 Questions`;
+            document.getElementById('htmlLastStudied').textContent = userProgress.html.lastStudied ? new Date(userProgress.html.lastStudied).toLocaleDateString() : 'Never';
+            document.getElementById('htmlPercent').textContent = `${Math.round((userProgress.html.answered / 30) * 100)}%`;
+            document.getElementById('htmlProgress').style.width = `${Math.round((userProgress.html.answered / 30) * 100)}%`;
+            
+            // Update CSS progress
+            document.getElementById('cssScore').textContent = `Score: ${userProgress.css.score}/100`;
+            document.getElementById('cssAnswered').textContent = `${userProgress.css.answered}/30 Questions`;
+            document.getElementById('cssLastStudied').textContent = userProgress.css.lastStudied ? new Date(userProgress.css.lastStudied).toLocaleDateString() : 'Never';
+            document.getElementById('cssPercent').textContent = `${Math.round((userProgress.css.answered / 30) * 100)}%`;
+            document.getElementById('cssProgress').style.width = `${Math.round((userProgress.css.answered / 30) * 100)}%`;
+            
+            // Update JavaScript progress
+            document.getElementById('jsScore').textContent = `Score: ${userProgress.javascript.score}/100`;
+            document.getElementById('jsAnswered').textContent = `${userProgress.javascript.answered}/30 Questions`;
+            document.getElementById('jsLastStudied').textContent = userProgress.javascript.lastStudied ? new Date(userProgress.javascript.lastStudied).toLocaleDateString() : 'Never';
+            document.getElementById('jsPercent').textContent = `${Math.round((userProgress.javascript.answered / 30) * 100)}%`;
+            document.getElementById('jsProgress').style.width = `${Math.round((userProgress.javascript.answered / 30) * 100)}%`;
+        }
+
+        // Load questions from Firestore
+        function loadQuestionsFromFirestore(topic) {
+            return db.collection('interviewQuestions')
+                .where('topic', '==', topic)
+                .get()
+                .then(snapshot => {
+                    const questions = [];
+                    snapshot.forEach(doc => {
+                        questions.push({ id: doc.id, ...doc.data() });
+                    });
+                    return questions;
+                })
+                .catch(error => {
+                    console.error("Error loading questions:", error);
+                    return [];
+                });
+        }
+
+        // Select a topic
         function selectTopic(topic) {
             currentTopic = topic;
             document.getElementById('questionsSection').classList.remove('hidden');
             document.getElementById('topicTitle').textContent = `${topic.toUpperCase()} Interview Questions`;
-            loadQuestions(topic);
+            
+            // Update last studied timestamp
+            userProgress[topic].lastStudied = new Date().toISOString();
+            updateUserProgress();
+            
+            // Load questions
+            loadQuestionsFromFirestore(topic)
+                .then(questions => {
+                    if (questions.length === 0) {
+                        // If no questions in Firestore, use local data initially
+                        loadQuestionsFromLocalData(topic);
+                    } else {
+                        displayQuestions(questions);
+                    }
+                });
         }
 
-        function loadQuestions(topic) {
+        // Load questions from local data (fallback)
+        function loadQuestionsFromLocalData(topic) {
+            // Placeholder for local question data
+            // In a real app, this would load from a local JSON file or similar
+            const localQuestions = [
+                { id: '1', question: "What is semantic HTML?", answer: "Semantic HTML uses meaningful tags that describe their content's purpose, like <header>, <footer>, <article>, etc. This improves accessibility, SEO, and code readability." },
+                { id: '2', question: "Explain the CSS box model", answer: "The CSS box model consists of content, padding, border, and margin. Content is the actual content area, padding is the space between content and border, border surrounds padding, and margin is the space outside the border." },
+                { id: '3', question: "What is closure in JavaScript?", answer: "A closure is a function that has access to variables in its outer scope, even after the outer function has returned. This allows for private variables and state management in functional programming." }
+            ];
+            
+            // Display the questions
+            displayQuestions(localQuestions);
+            
+            // Also save these to Firestore for future use
+            localQuestions.forEach(q => {
+                db.collection('interviewQuestions').add({
+                    topic: topic,
+                    question: q.question,
+                    answer: q.answer
+                });
+            });
+        }
+
+        // Display questions
+        function displayQuestions(questions) {
             const questionsList = document.getElementById('questionsList');
             questionsList.innerHTML = '';
             
-            questions[topic].forEach((q, index) => {
+            questions.forEach((q, index) => {
+                const isRead = userProgress[currentTopic].readQuestions.includes(q.id);
                 const questionCard = document.createElement('div');
-                questionCard.className = 'border border-gray-200 rounded-lg p-4';
+                questionCard.className = `question-card border ${isRead ? 'border-green-200 bg-green-50' : 'border-gray-200'} rounded-lg p-4`;
                 questionCard.innerHTML = `
                     <div class="flex items-center justify-between mb-2">
                         <h3 class="text-lg font-semibold">${index + 1}. ${q.question}</h3>
-                        <button onclick="toggleAnswer(${index})" class="text-blue-600 hover:text-blue-700">
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
+                        <div class="flex items-center">
+                            <button onclick="markAsRead('${q.id}')" class="text-${isRead ? 'green' : 'gray'}-600 hover:text-gray-800 mr-3">
+                                <i class="fas fa-${isRead ? 'check-circle' : 'circle'}"></i>
+                            </button>
+                            <button onclick="toggleAnswer('${index}')" class="text-blue-600 hover:text-blue-700">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div id="answer-${index}" class="hidden mt-2 text-gray-600">
+                    <div id="answer-${index}" class="hidden mt-2 text-gray-600 p-4 bg-gray-50 rounded-lg">
                         ${q.answer}
                     </div>
                 `;
@@ -218,39 +370,72 @@
             });
         }
 
+        // Toggle answer visibility
         function toggleAnswer(index) {
             const answer = document.getElementById(`answer-${index}`);
             answer.classList.toggle('hidden');
         }
 
-        function startQuiz() {
-            document.getElementById('questionsSection').classList.add('hidden');
-            document.getElementById('quizSection').classList.remove('hidden');
-            loadQuizQuestion(0);
-        }
-
-        // Add quiz functionality
-        function loadQuizQuestion(index) {
-            // Implementation for loading quiz questions
-        }
-
-        // Initialize user profile
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                document.getElementById('userName').textContent = user.displayName || 'User';
-                document.getElementById('userAvatar').src = user.photoURL || 'default-avatar.png';
-                
-                // Load user scores
-                db.collection('users').doc(user.uid).get().then(doc => {
-                    if (doc.exists) {
-                        const scores = doc.data().scores || {};
-                        Object.keys(scores).forEach(topic => {
-                            document.getElementById(`${topic}Score`).textContent = 
-                                `Score: ${scores[topic]}/100`;
-                        });
-                    }
-                });
+        // Mark question as read
+        function markAsRead(questionId) {
+            if (!currentUser) return;
+            
+            if (!userProgress[currentTopic].readQuestions.includes(questionId)) {
+                userProgress[currentTopic].readQuestions.push(questionId);
+                userProgress[currentTopic].answered = userProgress[currentTopic].readQuestions.length;
+                updateUserProgress();
             }
+            
+            // Update UI
+            selectTopic(currentTopic);
+        }
+
+        // Mark all questions as read
+        function markAllAsRead() {
+            // Get all displayed questions
+            const questions = document.querySelectorAll('.question-card');
+            questions.forEach(question => {
+                const questionId = question.querySelector('button[onclick^="markAsRead"]').getAttribute('onclick').match(/'([^']+)'/)[1];
+                if (!userProgress[currentTopic].readQuestions.includes(questionId)) {
+                    userProgress[currentTopic].readQuestions.push(questionId);
+                }
+            });
+            
+            userProgress[currentTopic].answered = userProgress[currentTopic].readQuestions.length;
+            updateUserProgress();
+            
+            // Update UI
+            selectTopic(currentTopic);
+        }
+
+        // Update user progress in Firestore
+        function updateUserProgress() {
+            if (!currentUser) return;
+            
+            db.collection('userProgress').doc(currentUser.uid).set(userProgress)
+                .then(() => {
+                    updateProgressUI();
+                })
+                .catch(error => {
+                    console.error("Error updating user progress:", error);
+                });
+        }
+
+        // Search questions functionality
+        document.getElementById('searchQuestions').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const questions = document.querySelectorAll('.question-card');
+            
+            questions.forEach(question => {
+                const questionText = question.querySelector('h3').textContent.toLowerCase();
+                const answerText = question.querySelector('[id^="answer-"]').textContent.toLowerCase();
+                
+                if (questionText.includes(searchTerm) || answerText.includes(searchTerm)) {
+                    question.style.display = 'block';
+                } else {
+                    question.style.display = 'none';
+                }
+            });
         });
     </script>
 </body>

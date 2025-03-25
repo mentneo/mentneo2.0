@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Quiz | Learning Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
+    <style>
+        .option-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .option-card:hover {
+            border-color: #3b82f6;
+            background-color: #f0f7ff;
+        }
+        .option-card.selected {
+            border-color: #3b82f6;
+            background-color: #ebf5ff;
+        }
+        .option-card.correct {
+            border-color: #10b981;
+            background-color: #ecfdf5;
+        }
+        .option-card.incorrect {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+        }
+        .timer-bar {
+            height: 6px;
+            background-color: #e0e7ff;
+            border-radius: 3px;
+            overflow: hidden;
+            transition: width 1s linear;
+        }
+        .quiz-container {
+            min-height: 400px;
+        }
+        .result-icon {
+            font-size: 4rem;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #3b82f6;
+            border-radius: 50%;
+            animation: confetti-fall 3s ease-in-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        @media (max-width: 768px) {
+            .timer-container {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+                background-color: white;
+                padding: 1rem 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <a href="./interviewfrontend.html" class="flex items-center text-gray-800">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Back to Questions
+                    </a>
+                </div>
+                <div class="flex items-center">
+                    <div id="userProfile" class="flex items-center space-x-4">
+                        <span class="text-sm text-gray-700" id="userName">Guest</span>
+                        <img id="userAvatar" class="h-8 w-8 rounded-full object-cover" src="https://via.placeholder.com/40" alt="User avatar">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="timer-container mb-8">
+            <div class="flex justify-between items-center mb-2">
+                <h1 id="quizTitle" class="text-2xl font-bold text-gray-900">HTML Quiz</h1>
+                <div class="flex items-center">
+                    <i class="fas fa-clock text-gray-600 mr-2"></i>
+                    <span id="timerDisplay" class="text-lg font-semibold text-gray-700">00:30</span>
+                </div>
+            </div>
+            <div class="timer-bar">
+                <div id="timerProgress" class="h-full bg-indigo-500" style="width: 100%"></div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-8 quiz-container">
+            <!-- Quiz Intro -->
+            <div id="quizIntro" class="text-center py-10">
+                <div class="mb-6">
+                    <i class="fas fa-question-circle text-blue-500 text-6xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Ready for the Quiz?</h2>
+                <p class="text-gray-600 mb-6 max-w-md mx-auto">
+                    Test your knowledge with 10 questions. You'll have 30 seconds to answer each question.
+                </p>
+                <button id="startQuizBtn" class="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 shadow-md transition-all">
+                    Start Quiz
+                </button>
+            </div>
+
+            <!-- Quiz Questions -->
+            <div id="quizContent" class="hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-900">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">10</span></h2>
+                    <div class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                        Score: <span id="currentScore">0</span>
+                    </div>
+                </div>
+                <div id="questionText" class="text-lg font-medium text-gray-800 mb-6">
+                    <!-- Question text goes here -->
+                </div>
+                <div id="options" class="space-y-3 mb-6">
+                    <!-- Options go here -->
+                </div>
+                <div class="flex justify-between items-center">
+                    <button id="skipBtn" class="text-gray-600 hover:text-gray-800">
+                        Skip Question <i class="fas fa-forward ml-1"></i>
+                    </button>
+                    <button id="submitBtn" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-all">
+                        Submit
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Results -->
+            <div id="quizResults" class="hidden text-center py-10">
+                <div class="mb-6 result-icon text-blue-500">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Quiz Completed!</h2>
+                <p class="text-gray-600 mb-2">Your Score:</p>
+                <p class="text-4xl font-bold text-blue-600 mb-6"><span id="finalScore">0</span>%</p>
+                <div class="mb-8 max-w-md mx-auto">
+                    <div class="bg-gray-100 p-4 rounded-lg text-left">
+                        <div class="mb-2">
+                            <span class="font-semibold">Correct Answers:</span> <span id="correctAnswers">0</span>
+                        </div>
+                        <div class="mb-2">
+                            <span class="font-semibold">Incorrect Answers:</span> <span id="incorrectAnswers">0</span>
+                        </div>
+                        <div>
+                            <span class="font-semibold">Skipped Questions:</span> <span id="skippedQuestions">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-center space-x-4">
+                    <button onclick="window.location.reload()" class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300 transition-all">
+                        Try Again
+                    </button>
+                    <button onclick="window.location.href='interviewfrontend.html'" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-all">
+                        Back to Questions
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCf0Z27yRLiE1pRPe4kDJPDvaV_dLlkl84",
+            authDomain: "qwedsfvb-6002e.firebaseapp.com",
+            projectId: "qwedsfvb-6002e",
+            storageBucket: "qwedsfvb-6002e.firebasestorage.app",
+            messagingSenderId: "970311760029",
+            appId: "1:970311760029:web:50b081a7f98e34a41c7c74",
+            measurementId: "G-RJHDRBZFF8"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        // Quiz state
+        let currentUser = null;
+        let currentTopic = '';
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let selectedOption = null;
+        let timer = null;
+        let timeLeft = 30;
+        let score = 0;
+        let quizResults = {
+            correct: 0,
+            incorrect: 0,
+            skipped: 0
+        };
+
+        // Get topic from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        currentTopic = urlParams.get('topic') || 'html';
+
+        // Set quiz title
+        document.getElementById('quizTitle').textContent = `${currentTopic.toUpperCase()} Quiz`;
+
+        // Auth state observer
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('userName').textContent = user.displayName || 'User';
+                document.getElementById('userAvatar').src = user.photoURL || 'https://via.placeholder.com/40';
+            } else {
+                console.log("User not logged in");
+            }
+        });
+
+        // Start quiz button event
+        document.getElementById('startQuizBtn').addEventListener('click', function() {
+            loadQuizQuestions();
+        });
+
+        // Load quiz questions from Firestore
+        function loadQuizQuestions() {
+            document.getElementById('quizIntro').classList.add('hidden');
+            document.getElementById('quizContent').classList.remove('hidden');
+            
+            db.collection('quizQuestions')
+                .where('topic', '==', currentTopic)
+                .limit(10)
+                .get()
+                .then(snapshot => {
+                    if (!snapshot.empty) {
+                        snapshot.forEach(doc => {
+                            questions.push({ id: doc.id, ...doc.data() });
+                        });
+                        
+                        // Start quiz with loaded questions
+                        startQuiz();
+                    } else {
+                        // If no questions in Firestore, use sample questions
+                        loadSampleQuestions();
+                    }
+                })
+                .catch(error => {
+                    console.error("Error loading quiz questions:", error);
+                    loadSampleQuestions();
+                });
+        }
+
+        // Load sample questions if Firestore fails
+        function loadSampleQuestions() {
+            // Sample HTML questions
+            if (currentTopic === 'html') {
+                questions = [
+                    {
+                        id: 'html1',
+                        question: 'What does HTML stand for?',
+                        options: [
+                            'Hyper Text Markup Language',
+                            'Hyperlinks and Text Markup Language',
+                            'Home Tool Markup Language',
+                            'Hyper Technical Modern Language'
+                        ],
+                        correctAnswer: 0
+                    },
+                    {
+                        id: 'html2',
+                        question: 'Which HTML tag is used to define an internal style sheet?',
+                        options: [
+                            '<css>',
+                            '<script>',
+                            '<style>',
+                            '<link>'
+                        ],
+                        correctAnswer: 2
+                    },
+                    // Add more sample questions...
+                ];
+            } 
+            // Sample CSS questions
+            else if (currentTopic === 'css') {
+                questions = [
+                    {
+                        id: 'css1',
+                        question: 'What does CSS stand for?',
+                        options: [
+                            'Colorful Style Sheets',
+                            'Computer Style Sheets',
+                            'Creative Style Sheets',
+                            'Cascading Style Sheets'
+                        ],
+                        correctAnswer: 3
+                    },
+                    {
+                        id: 'css2',
+                        question: 'Which property is used to change the background color?',
+                        options: [
+                            'color',
+                            'bgcolor',
+                            'background-color',
+                            'background'
+                        ],
+                        correctAnswer: 2
+                    },
+                    // Add more sample questions...
+                ];
+            } 
+            // Sample JavaScript questions
+            else {
+                questions = [
+                    {
+                        id: 'js1',
+                        question: 'Which operator is used to assign a value to a variable?',
+                        options: [
+                            '=',
+                            '*',
+                            '-',
+                            'x'
+                        ],
+                        correctAnswer: 0
+                    },
+                    {
+                        id: 'js2',
+                        question: 'How do you create a function in JavaScript?',
+                        options: [
+                            'function:myFunction()',
+                            'function myFunction()',
+                            'function = myFunction()',
+                            'function.create(myFunction)'
+                        ],
+                        correctAnswer: 1
+                    },
+                    // Add more sample questions...
+                ];
+            }
+            
+            // Store sample questions in Firestore for future use
+            questions.forEach(q => {
+                db.collection('quizQuestions').add({
+                    topic: currentTopic,
+                    question: q.question,
+                    options: q.options,
+                    correctAnswer: q.correctAnswer
+                });
+            });
+            
+            // Start the quiz
+            startQuiz();
+        }
+
+        // Start the quiz
+        function startQuiz() {
+            // Set total questions
+            document.getElementById('totalQuestions').textContent = questions.length;
+            
+            // Shuffle questions
+            questions = shuffleArray(questions);
+            
+            // Load the first question
+            loadQuestion(0);
+        }
+
+        // Load a question
+        function loadQuestion(index) {
+            if (index >= questions.length) {
+                endQuiz();
+                return;
+            }
+
+            // Reset state for new question
+            currentQuestionIndex = index;
+            selectedOption = null;
+            document.getElementById('currentQuestion').textContent = index + 1;
+            
+            // Display question
+            const question = questions[index];
+            document.getElementById('questionText').textContent = question.question;
+            
+            // Display options
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, i) => {
+                const optionCard = document.createElement('div');
+                optionCard.className = 'option-card border border-gray-200 rounded-lg p-4';
+                optionCard.setAttribute('data-index', i);
+                optionCard.innerHTML = `
+                    <div class="flex items-center">
+                        <div class="h-6 w-6 border border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                            <span class="option-letter">${String.fromCharCode(65 + i)}</span>
+                        </div>
+                        <div class="flex-1">${option}</div>
+                    </div>
+                `;
+                optionCard.addEventListener('click', function() {
+                    selectOption(i);
+                });
+                optionsContainer.appendChild(optionCard);
+            });
+            
+            // Start timer
+            startTimer();
+        }
+
+        // Start timer for current question
+        function startTimer() {
+            // Clear any existing timer
+            if (timer) clearInterval(timer);
+            
+            timeLeft = 30;
+            document.getElementById('timerDisplay').textContent = formatTime(timeLeft);
+            document.getElementById('timerProgress').style.width = '100%';
+            
+            // Start new timer
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timerDisplay').textContent = formatTime(timeLeft);
+                document.getElementById('timerProgress').style.width = `${(timeLeft / 30) * 100}%`;
+                
+                // Change color based on time
+                if (timeLeft <= 10) {
+                    document.getElementById('timerProgress').style.backgroundColor = '#ef4444';  // Red
+                } else if (timeLeft <= 20) {
+                    document.getElementById('timerProgress').style.backgroundColor = '#f59e0b';  // Yellow
+                }
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    handleTimeUp();
+                }
+            }, 1000);
+        }
+
+        // Format time (seconds to MM:SS)
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Handle time up
+        function handleTimeUp() {
+            // Mark as skipped if no option selected
+            if (selectedOption === null) {
+                quizResults.skipped++;
+            }
+            
+            // Move to next question
+            moveToNextQuestion();
+        }
+
+        // Select an answer option
+        function selectOption(index) {
+            // Remove selected class from all options
+            const options = document.querySelectorAll('.option-card');
+            options.forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            options[index].classList.add('selected');
+            selectedOption = index;
+        }
+
+        // Submit answer
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            // If no option selected, treat as skip
+            if (selectedOption === null) {
+                quizResults.skipped++;
+            } else {
+                // Check if answer is correct
+                const correctAnswer = questions[currentQuestionIndex].correctAnswer;
+                if (selectedOption === correctAnswer) {
+                    quizResults.correct++;
+                    score += 10;
+                } else {
+                    quizResults.incorrect++;
+                }
+                
+                // Update score display
+                document.getElementById('currentScore').textContent = score;
+                
+                // Show correct/incorrect feedback
+                const options = document.querySelectorAll('.option-card');
+                options[correctAnswer].classList.add('correct');
+                if (selectedOption !== correctAnswer) {
+                    options[selectedOption].classList.add('incorrect');
+                }
+                
+                // Disable option selection
+                options.forEach(option => {
+                    option.style.pointerEvents = 'none';
+                });
+                
+                // Disable submit button
+                document.getElementById('submitBtn').disabled = true;
+                
+                // Clear timer
+                clearInterval(timer);
+                
+                // Delay before moving to next question
+                setTimeout(moveToNextQuestion, 1500);
+            }
+        });
+
+        // Skip question
+        document.getElementById('skipBtn').addEventListener('click', function() {
+            quizResults.skipped++;
+            moveToNextQuestion();
+        });
+
+        // Move to next question
+        function moveToNextQuestion() {
+            // Clear timer
+            clearInterval(timer);
+            
+            // Move to next question
+            loadQuestion(currentQuestionIndex + 1);
+        }
+
+        // End quiz
+        function endQuiz() {
+            // Hide quiz content
+            document.getElementById('quizContent').classList.add('hidden');
+            
+            // Show results
+            document.getElementById('quizResults').classList.remove('hidden');
+            
+            // Calculate final score percentage
+            const finalScore = Math.round((quizResults.correct / questions.length) * 100);
+            document.getElementById('finalScore').textContent = finalScore;
+            document.getElementById('correctAnswers').textContent = quizResults.correct;
+            document.getElementById('incorrectAnswers').textContent = quizResults.incorrect;
+            document.getElementById('skippedQuestions').textContent = quizResults.skipped;
+            
+            // Save results to Firestore
+            saveQuizResults(finalScore);
+            
+            // Show confetti for good scores
+            if (finalScore >= 70) {
+                createConfetti();
+            }
+        }
+
+        // Save quiz results to Firestore
+        function saveQuizResults(finalScore) {
+            if (!currentUser) return;
+            
+            // Reference to user progress document
+            const userProgressRef = db.collection('userProgress').doc(currentUser.uid);
+            
+            // Create a quiz history entry
+            const quizEntry = {
+                topic: currentTopic,
+                score: finalScore,
+                correct: quizResults.correct,
+                incorrect: quizResults.incorrect,
+                skipped: quizResults.skipped,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            // Add to quiz history collection
+            db.collection('quizHistory').add({
+                userId: currentUser.uid,
+                ...quizEntry
+            });
+            
+            // Update user progress
+            userProgressRef.get().then(doc => {
+                let userProgress = doc.exists ? doc.data() : {
+                    html: { score: 0, answered: 0, lastStudied: null, readQuestions: [] },
+                    css: { score: 0, answered: 0, lastStudied: null, readQuestions: [] },
+                    javascript: { score: 0, answered: 0, lastStudied: null, readQuestions: [] }
+                };
+                
+                // Update the score if it's higher than previous
+                if (finalScore > (userProgress[currentTopic].score || 0)) {
+                    userProgress[currentTopic].score = finalScore;
+                }
+                
+                // Update last studied timestamp
+                userProgress[currentTopic].lastStudied = new Date().toISOString();
+                
+                // Save to Firestore
+                userProgressRef.set(userProgress, { merge: true });
+            });
+        }
+
+        // Create confetti effect
+        function createConfetti() {
+            const confettiCount = 100;
+            const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.animationDelay = `${Math.random() * 3}s`;
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                document.body.appendChild(confetti);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
+        }
+
+        // Utility function to shuffle array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+    </script>
+</body>
+</html>
