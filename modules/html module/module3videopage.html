@@ -187,10 +187,15 @@
                             <p>HTML (HyperText Markup Language) is the standard markup language for documents designed to be displayed in a web browser. It defines the structure and layout of a web document.</p>
                             <h3 class="text-lg font-semibold mt-6 mb-3">Key Concepts:</h3>
                             <ul class="list-disc pl-6 space-y-2">
-                                <li>HTML Elements and Tags</li>
-                                <li>Document Structure</li>
-                                <li>Basic Text Formatting</li>
-                                <li>Links and Images</li>
+                                <li> Hyperlinks in HTML</li>
+                                <li>File Paths in HTML</li>
+                                <li>Block-Level vs Inline-Level Elements</li>
+                                <li>Using CSS in HTML</li>
+                                <li>Images in HTML</li>
+                                <li>List Types – Unordered Lists </li>
+                                <li> List Types – Ordered Lists</li>
+                                    
+                                
                             </ul>
                         </div>
                     </div>
@@ -209,26 +214,29 @@
                     <div class="space-y-2">
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-blue-600 text-white">
                             <div class="flex items-center">
-                                <span class="flex-1">1. Introduction to HTML</span>
+                                <span class="flex-1">1.  Hyperlinks in HTML</span>
                             </div>
                         </button>
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50 active:bg-blue-600 active:text-white">
-                            2. HTML Elements
+                            2. File Paths in HTML
                         </button>
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50">
-                            3. Text Formatting
+                            3. Block-Level vs Inline-Level Elements
                         </button>
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50">
-                            4. Links and Images
+                            4.Using CSS in HTML
                         </button>
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50">
-                            5. Lists and Tables
+                            5.Images in HTML
                         </button>
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50">
-                            6. Forms and Input
+                            6. List Types – Unordered Lists
+                        </button>
+                        <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50">
+                            7.List Types – Ordered Lists
                         </button>
                         <button class="!rounded-button bg-blue-600 text-white px-6 py-2 font-medium hover:bg-blue-700 transition-colors" onclick="location.href='../../assignmenthtml03.html'">
-                            7.Assignments
+                            8.Assignments
                         </button>
                     </div>
                 </div>
@@ -250,13 +258,14 @@
             let completedTopics = JSON.parse(localStorage.getItem('completedTopics')) || [];
 
             const videoLinks = [
-                "https://www.youtube.com/embed/Yh9OXmldCIY",  // Introduction to HTML
-                "https://www.youtube.com/embed/WnKmbFhENUg",  // HTML Elements
-                "https://www.youtube.com/embed/150EzogAp_c",  // Text Formatting
-                "https://www.youtube.com/embed/Kx26KPiHDtw?si=piptbOT733fD1Fy9",  // Links and Images
-                "https://www.youtube.com/embed/150EzogAp_c",  // Lists and Tables
-                "https://www.youtube.com/embed/WnKmbFhENUg"   // Forms and Input
-            ];
+    "https://www.youtube.com/embed/xrvMCggJEgc",  // 1. Hyperlinks in HTML
+    "https://www.youtube.com/embed/Cu8v1V9Cblg",  // 2. File Paths in HTML
+    "https://www.youtube.com/embed/l1RdHxNUMqg",  // 3. Block-Level vs Inline-Level Elements
+    "https://www.youtube.com/embed/CZnUeLgcKVc",  // Using CSS in HTML
+    "https://www.youtube.com/embed/pVAUkSAukIk",  // 5. Images in HTML
+    "https://www.youtube.com/embed/xiwuziEDGjU",  // 6. List Types – Unordered Lists
+    "https://www.youtube.com/embed/HdBs6EWcFpA"   // 7. List Types – Ordered Lists
+];
 
             let player;
 

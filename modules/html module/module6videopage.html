@@ -113,6 +113,38 @@
                 border-top: 1px solid #404040;
             }
         }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .custom-controls {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-container:hover .custom-controls {
+            opacity: 1;
+        }
+
+        .progress-bar {
+            transition: all 0.2s ease;
+        }
+
+        .progress-bar:hover {
+            height: 4px;
+        }
     </style>
 </head>
 
@@ -180,8 +212,27 @@
                                 Mark as Complete
                             </button>
                         </div>
-                        <div class="aspect-w-16 aspect-h-9 mb-6">
-                            <iframe id="video-player" class="rounded-lg" src="https://www.youtube.com/embed/Yh9OXmldCIY?enablejsapi=1" allowfullscreen></iframe>
+                        <div class="video-container relative">
+                            <iframe id="video-player" class="rounded-lg w-full" 
+                                src="https://www.youtube.com/embed/OFLZjEfObF4?enablejsapi=1&controls=0&modestbranding=1&rel=0&showinfo=0" 
+                                allowfullscreen>
+                            </iframe>
+                            
+                            <!-- Custom video controls -->
+                            <div class="custom-controls absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-4 flex items-center space-x-4">
+                                <button id="playPauseBtn" class="text-white hover:text-blue-400">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button id="rewindBtn" class="text-white hover:text-blue-400">
+                                    <i class="fas fa-backward"></i>
+                                </button>
+                                <button id="forwardBtn" class="text-white hover:text-blue-400">
+                                    <i class="fas fa-forward"></i>
+                                </button>
+                                <div class="progress-bar flex-1 bg-gray-600 h-2 rounded cursor-pointer">
+                                    <div id="progress" class="bg-blue-500 h-full rounded" style="width: 0%"></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="prose max-w-none">
                             <p>HTML (HyperText Markup Language) is the standard markup language for documents designed to be displayed in a web browser. It defines the structure and layout of a web document.</p>
@@ -209,26 +260,29 @@
                     <div class="space-y-2">
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-blue-600 text-white">
                             <div class="flex items-center">
-                                <span class="flex-1">1. Introduction to HTML</span>
+                                <span class="flex-1">1. HTML Code Formatting Elements (code, pre, etc.)</span>
                             </div>
                         </button>
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50 active:bg-blue-600 active:text-white">
-                            2. HTML Elements
+                            2.Forms in HTML – Part 1
                         </button>
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50">
-                            3. Text Formatting
+                            3. Forms in HTML – Part 2
                         </button>
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50">
-                            4. Links and Images
+                            4.  Video Tag in HTML
                         </button>
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50">
-                            5. Lists and Tables
+                            5.  audio Tag in HTML
                         </button>
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50">
-                            6. Forms and Input
+                            6.Iframes in HTML
+                        </button>
+                        <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50">
+                            7. Relationship Between HTML Elements
                         </button>
                         <button class="!rounded-button bg-blue-600 text-white px-6 py-2 font-medium hover:bg-blue-700 transition-colors" onclick="location.href='../../assignmenthtml06.html'">
-                            7.Assignments
+                            8.Assignments
                         </button>
                     </div>
                 </div>
@@ -250,13 +304,14 @@
             let completedTopics = JSON.parse(localStorage.getItem('completedTopics')) || [];
 
             const videoLinks = [
-                "https://www.youtube.com/embed/Yh9OXmldCIY",  // Introduction to HTML
-                "https://www.youtube.com/embed/WnKmbFhENUg",  // HTML Elements
-                "https://www.youtube.com/embed/150EzogAp_c",  // Text Formatting
-                "https://www.youtube.com/embed/Kx26KPiHDtw?si=piptbOT733fD1Fy9",  // Links and Images
-                "https://www.youtube.com/embed/150EzogAp_c",  // Lists and Tables
-                "https://www.youtube.com/embed/WnKmbFhENUg"   // Forms and Input
-            ];
+    "https://www.youtube.com/embed/OFLZjEfObF4",  // 1. HTML Code Formatting Elements (<code>, <pre>, etc.)
+    "https://www.youtube.com/embed/Fa3MVvcLoU0",  // 2. Forms in HTML – Part 1
+    "https://www.youtube.com/embed/Fa3MVvcLoU0",  // 3. Forms in HTML – Part 2
+    "https://www.youtube.com/embed/TjgFmeoJYR4",  // 4. Video Tag in HTML
+    "https://www.youtube.com/embed/vI4PeSCZ0vo",  // 5. audio Tag in HTML
+    "https://www.youtube.com/embed/KYZtbt0LkIc",  // 6. Iframes in HTML
+    "https://www.youtube.com/embed/-21PTFCn4BY"   // 7. Relationship Between HTML Elements
+];
 
             let player;
 
@@ -271,6 +326,7 @@
 
             function onPlayerReady(event) {
                 player = event.target;
+                setupCustomControls();
                 setInterval(() => checkVideoProgress(), 1000);
             }
 
@@ -653,6 +709,94 @@
                 alert('Please complete all topics in this module first.');
             }
         });
+
+        // Update the setupCustomControls function
+        function setupCustomControls() {
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const rewindBtn = document.getElementById('rewindBtn');
+            const forwardBtn = document.getElementById('forwardBtn');
+            const progressBar = document.querySelector('.progress-bar');
+            const progress = document.getElementById('progress');
+
+            // Play/Pause button
+            playPauseBtn.addEventListener('click', () => {
+                const state = player.getPlayerState();
+                if (state === YT.PlayerState.PLAYING) {
+                    player.pauseVideo();
+                    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                } else {
+                    player.playVideo();
+                    playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                }
+            });
+
+            // Rewind 10 seconds
+            rewindBtn.addEventListener('click', () => {
+                const currentTime = player.getCurrentTime();
+                player.seekTo(Math.max(currentTime - 10, 0), true);
+            });
+
+            // Forward 10 seconds
+            forwardBtn.addEventListener('click', () => {
+                const currentTime = player.getCurrentTime();
+                const duration = player.getDuration();
+                player.seekTo(Math.min(currentTime + 10, duration), true);
+            });
+
+            // Progress bar click
+            progressBar.addEventListener('click', (e) => {
+                const rect = progressBar.getBoundingClientRect();
+                const pos = (e.clientX - rect.left) / rect.width;
+                player.seekTo(pos * player.getDuration(), true);
+            });
+
+            // Update progress bar continuously
+            setInterval(() => {
+                if (player && player.getCurrentTime && player.getDuration) {
+                    const currentTime = player.getCurrentTime();
+                    const duration = player.getDuration();
+                    const percentage = (currentTime / duration) * 100;
+                    progress.style.width = `${percentage}%`;
+                }
+            }, 100);
+        }
+
+        // Update your existing onPlayerReady function
+        function onPlayerReady(event) {
+            player = event.target;
+            setupCustomControls();
+            setInterval(() => checkVideoProgress(), 1000);
+        }
+
+        // Update your YouTube player initialization
+        window.onYouTubeIframeAPIReady = function () {
+            player = new YT.Player('video-player', {
+                height: '360',
+                width: '640',
+                videoId: 'OFLZjEfObF4',
+                playerVars: {
+                    'controls': 0,
+                    'modestbranding': 1,
+                    'rel': 0,
+                    'showinfo': 0,
+                    'enablejsapi': 1,
+                    'origin': window.location.origin
+                },
+                events: {
+                    'onStateChange': onPlayerStateChange,
+                    'onReady': onPlayerReady
+                }
+            });
+        };
+
+        // Add the YouTube API script if not already present
+        if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
     </script>
+    <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
