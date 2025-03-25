@@ -13,6 +13,7 @@
         src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
     <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#2563EB"
         data-border-radius="small"></script>
+    <link href="../../css/mobile-responsive.css" rel="stylesheet" />
     <style>
         /* Mobile menu styles */t 
         .mobile-menu {
@@ -185,6 +186,37 @@
             /* Hide desktop sidebar */
             aside.w-80 {
                 display: none;
+            }
+        }
+
+        /* Better mobile video player */
+        @media (max-width: 768px) {
+            .video-container {
+                position: sticky;
+                top: 0;
+                z-index: 30;
+                background-color: var(--bg-color, white);
+                margin: 0 -1rem;
+                padding: 0 1rem;
+            }
+            
+            .video-controls {
+                position: absolute;
+                bottom: 1rem;
+                left: 1rem;
+                right: 1rem;
+                display: flex;
+                justify-content: center;
+                z-index: 40;
+            }
+            
+            .video-controls button {
+                background: rgba(0,0,0,0.6);
+                color: white;
+                border: none;
+                border-radius: 9999px;
+                padding: 0.5rem 1rem;
+                margin: 0 0.25rem;
             }
         }
     </style>
@@ -799,5 +831,6 @@
             }
         });
     </script>
+    <script src="../../js/mobile-ux.js"></script>
 </body>
 </html>

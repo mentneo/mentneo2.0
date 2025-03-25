@@ -1,0 +1,157 @@
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  /* Hide sidebar on mobile */
+  .fixed.left-0.top-0.h-screen.w-64,
+  .fixed.inset-y-0.left-0.w-64 {
+    display: none !important;
+  }
+  
+  /* Remove left margin on content */
+  .ml-64 {
+    margin-left: 0 !important;
+  }
+  
+  /* Adjust padding for mobile */
+  main {
+    padding: 1rem !important;
+  }
+  
+  /* Mobile bottom navigation */
+  .mobile-nav {
+    display: flex !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 50;
+  }
+  
+  /* Space for bottom nav */
+  body {
+    padding-bottom: 60px;
+  }
+  
+  /* Improved mobile containers */
+  .rounded-lg, .rounded-xl {
+    border-radius: 0.5rem !important;
+  }
+  
+  /* Better spacing for mobile */
+  .p-6 {
+    padding: 1rem !important;
+  }
+  
+  /* Improved mobile typography */
+  h1.text-2xl, h1.text-3xl {
+    font-size: 1.5rem !important;
+  }
+  
+  /* Scroll fixes */
+  .overflow-y-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Module video player */
+  .aspect-w-16.aspect-h-9 {
+    position: relative !important;
+    padding-bottom: 56.25% !important;
+    height: 0 !important;
+  }
+  
+  .aspect-w-16.aspect-h-9 iframe {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  /* Larger touch targets */
+  button, a {
+    min-height: 44px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* File upload improvements */
+  #dropZone {
+    padding: 1rem !important;
+  }
+  
+  /* Better dark mode */
+  .dark-mode .mobile-nav {
+    background: #1e1e1e;
+    border-top: 1px solid #333;
+  }
+}
+
+/* Mobile module topics */
+.module-topics-sheet {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 60;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  padding: 1rem;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.module-topics-sheet.active {
+  transform: translateY(0);
+  display: block;
+}
+
+.module-topics-sheet .handle {
+  width: 50px;
+  height: 5px;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  margin: 0 auto 1rem;
+}
+
+.dark-mode .module-topics-sheet {
+  background: #2d2d2d;
+  border-top: 1px solid #404040;
+}
+
+.dark-mode .module-topics-sheet .handle {
+  background-color: #4b5563;
+}
+
+/* Mobile bottom navigation */
+.mobile-nav {
+  display: none;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 0.5rem;
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  color: #6b7280;
+  font-size: 0.75rem;
+  text-decoration: none;
+}
+
+.mobile-nav-item i {
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.mobile-nav-item.active {
+  color: #2563eb;
+}

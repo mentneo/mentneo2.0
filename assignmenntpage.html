@@ -7,6 +7,26 @@
     <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
     <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
+    <link href="./css/mobile-responsive.css" rel="stylesheet" />
+    
+    <style>
+        /* Mobile-specific improvements */
+        @media (max-width: 768px) {
+            #dropZone {
+                padding: 1.5rem !important;
+                margin: 0 0 1rem 0 !important;
+            }
+            
+            iframe {
+                height: 70vh !important;
+            }
+            
+            .backdrop-blur-md {
+                backdrop-filter: none;
+                background: white;
+            }
+        }
+    </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-white min-h-screen">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 ml-64"><div class="fixed left-0 top-0 h-screen w-64 bg-white shadow-lg border-r border-gray-200 p-4"><div class="space-y-4"><div class="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg cursor-pointer"><i class="fas fa-home text-gray-600"></i><span class="text-gray-700">Dashboard</span></div><div class="flex items-center gap-2 p-2 bg-blue-50 rounded-lg cursor-pointer"><i class="fas fa-book text-blue-600"></i><span class="text-blue-600">Assignments</span></div><div class="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg cursor-pointer"><i class="fas fa-calendar text-gray-600"></i><span class="text-gray-700">Schedule</span></div><div class="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg cursor-pointer"><i class="fas fa-chart-bar text-gray-600"></i><span class="text-gray-700">Progress</span></div><div class="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg cursor-pointer"><i class="fas fa-cog text-gray-600"></i><span class="text-gray-700">Settings</span></div></div></div>
@@ -113,5 +133,6 @@
             }
         }
     </script>
+    <script src="./js/mobile-ux.js"></script>
 </body>
 </html>
