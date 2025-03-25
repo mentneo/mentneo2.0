@@ -2,25 +2,136 @@
 <html lang="en"><head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>HTML Learning Modules</title>
+    <title>css Learning Modules</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
     <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
     <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const progressBar = document.querySelector('.bg-blue-600');
+        const progressText = document.querySelector('.text-gray-500');
+        const moduleButtons = document.querySelectorAll('.!rounded-button');
+        
+        // Get completion status from localStorage
+        const completedModules = JSON.parse(localStorage.getItem('completedModules')) || [];
+        
+        function updateProgress() {
+            const totalModules = 6;
+            const progress = (completedModules.length / totalModules) * 100;
+            progressBar.style.width = `${progress}%`;
+            progressText.textContent = `${Math.round(progress)}% Complete`;
+        }
+    
+        const moduleLinks = {
+            0: '../html module/module1videopage.html',
+            1: '../html module/module2videopage.html',
+            2: '../html module/module3videopage.html',
+            3: '../html module/module4videopage.html',
+            4: '../html module/module5videopage.html',
+            5: '../html module/module6videopage.html'
+        };
+
+        function updateModuleStatus() {
+            const completedModules = JSON.parse(localStorage.getItem('completedModules')) || [];
+            const moduleButtons = document.querySelectorAll('.module-btn');
+            
+            moduleButtons.forEach((button, index) => {
+                const moduleCard = button.closest('.bg-white');
+                const isFirstModule = index === 0;
+                const previousModuleCompleted = isFirstModule || completedModules.includes(index - 1);
+                
+                if (!previousModuleCompleted) {
+                    button.disabled = true;
+                    button.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+                
+                if (completedModules.includes(index)) {
+                    // Add completion badge
+                    if (!moduleCard.querySelector('.completion-badge')) {
+                        addCompletionBadge(moduleCard);
+                    }
+                }
+            });
+        }
+
+        function addCompletionBadge(moduleCard) {
+            const badge = document.createElement('div');
+            badge.className = 'absolute top-4 right-4 text-green-500 completion-badge';
+            badge.innerHTML = '<i class="fas fa-check-circle text-2xl"></i>';
+            moduleCard.style.position = 'relative';
+            moduleCard.appendChild(badge);
+        }
+
+        // Add animation for completion
+        const style = document.createElement('style');
+        style.textContent = `
+            .completion-badge {
+                animation: fadeInScale 0.3s ease-out;
+            }
+            @keyframes fadeInScale {
+                from {
+                    opacity: 0;
+                    transform: scale(0.8);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    
+        // Initialize progress and module status
+        updateProgress();
+        updateModuleStatus();
+    
+        // Update progress when returning from completed module
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'completedModules') {
+                completedModules = JSON.parse(e.newValue) || [];
+                updateProgress();
+                updateModuleStatus();
+            }
+        });
+    });
+
+    // Add this function to handle module starts
+    function handleModuleStart(moduleIndex) {
+        const completedModules = JSON.parse(localStorage.getItem('completedModules')) || [];
+        const previousModuleCompleted = moduleIndex === 0 || completedModules.includes(moduleIndex - 1);
+        
+        if (previousModuleCompleted) {
+            window.location.href = `../html module/module${moduleIndex + 1}videopage.html?module=${moduleIndex}`;
+        } else {
+            // Show warning message
+            const warningMessage = document.createElement('div');
+            warningMessage.className = 'fixed top-4 right-4 bg-yellow-100 text-yellow-800 px-6 py-3 rounded-lg shadow-lg';
+            warningMessage.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>
+                    <span>Please complete previous module first</span>
+                </div>
+            `;
+            document.body.appendChild(warningMessage);
+            setTimeout(() => warningMessage.remove(), 3000);
+        }
+    }
+    </script>
 </head>
 <body class="bg-blue-50 min-h-screen">
     <nav class="bg-white border-b border-blue-200">
         <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex">
-                    <a href="./frontendpage.html" class="flex items-center text-blue-800 hover:text-blue-600">
+                    <a href="../../frontendpage.html" class="flex items-center text-blue-800 hover:text-blue-600">
                         <i class="fas fa-arrow-left text-lg mr-4"></i>
-                        <span class="text-xl font-semibold">HTML Learning Path</span>
+                        <span class="text-xl font-semibold">css Learning Path</span>
                     </a>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="./community.html" class="text-blue-800 hover:text-blue-600 font-medium flex items-center">
+                    <a href=".../community.html" class="text-blue-800 hover:text-blue-600 font-medium flex items-center">
                         <i class="fas fa-comments mr-2"></i>
                         Community
                     </a>
@@ -49,10 +160,13 @@
             <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex items-start justify-between">
                     <div>
-                        <h3 class="text-lg font-semibold mb-2">Module 1: HTML Basics</h3>
+                        <h3 class="text-lg font-semibold mb-2">Module 1: css Basics</h3>
                         <p class="text-gray-600 mb-4">Learn the fundamentals of HTML structure and elements</p>
-                        <button class="!rounded-button bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700" onclick="location.href='./videopage.html'">
-                            Start Module
+                        <button class="!rounded-button module-btn bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700" onclick="location.href='../css module/module1videopage.html'">
+                            <span class="flex items-center">
+                                <i class="fas fa-play-circle mr-2"></i>
+                                Start Module
+                            </span>
                         </button>
                     </div>
                     <span class="text-gray-400"><i class="fas fa-code text-2xl"></i></span>
@@ -64,8 +178,11 @@
                     <div>
                         <h3 class="text-lg font-semibold mb-2">Module 2: Text &amp; Links</h3>
                         <p class="text-gray-600 mb-4">Master text formatting and hyperlink creation</p>
-                        <button class="!rounded-button bg-gray-200 text-gray-700 px-4 py-2 text-sm font-medium" disabled="">
-                            Locked
+                         <button class="!rounded-button module-btn bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700" onclick="location.href='../css module/module2videopage.html'">
+                            <span class="flex items-center">
+                                <i class="fas fa-play-circle mr-2"></i>
+                                Start Module
+                            </span>
                         </button>
                     </div>
                     <span class="text-gray-400"><i class="fas fa-link text-2xl"></i></span>
@@ -77,8 +194,11 @@
                     <div>
                         <h3 class="text-lg font-semibold mb-2">Module 3: Images &amp; Media</h3>
                         <p class="text-gray-600 mb-4">Work with images, audio, and video elements</p>
-                        <button class="!rounded-button bg-gray-200 text-gray-700 px-4 py-2 text-sm font-medium" disabled="">
-                            Locked
+                         <button class="!rounded-button module-btn bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700" onclick="location.href='../css module/module3videopage.html'">
+                            <span class="flex items-center">
+                                <i class="fas fa-play-circle mr-2"></i>
+                                Start Module
+                            </span>
                         </button>
                     </div>
                     <span class="text-gray-400"><i class="fas fa-image text-2xl"></i></span>
@@ -90,8 +210,11 @@
                     <div>
                         <h3 class="text-lg font-semibold mb-2">Module 4: Forms</h3>
                         <p class="text-gray-600 mb-4">Create interactive forms and input elements</p>
-                        <button class="!rounded-button bg-gray-200 text-gray-700 px-4 py-2 text-sm font-medium" disabled="">
-                            Locked
+                         <button class="!rounded-button module-btn bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700" onclick="location.href='../css module/module4videopage.html'">
+                            <span class="flex items-center">
+                                <i class="fas fa-play-circle mr-2"></i>
+                                Start Module
+                            </span>
                         </button>
                     </div>
                     <span class="text-gray-400"><i class="fas fa-wpforms text-2xl"></i></span>
@@ -103,8 +226,11 @@
                     <div>
                         <h3 class="text-lg font-semibold mb-2">Module 5: Tables</h3>
                         <p class="text-gray-600 mb-4">Structure data with HTML tables</p>
-                        <button class="!rounded-button bg-gray-200 text-gray-700 px-4 py-2 text-sm font-medium" disabled="">
-                            Locked
+                         <button class="!rounded-button module-btn bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700" onclick="location.href='../css module/module5videopage.html'">
+                            <span class="flex items-center">
+                                <i class="fas fa-play-circle mr-2"></i>
+                                Start Module
+                            </span>
                         </button>
                     </div>
                     <span class="text-gray-400"><i class="fas fa-table text-2xl"></i></span>
@@ -116,8 +242,11 @@
                     <div>
                         <h3 class="text-lg font-semibold mb-2">Module 6: Semantic HTML</h3>
                         <p class="text-gray-600 mb-4">Use semantic elements for better structure</p>
-                        <button class="!rounded-button bg-gray-200 text-gray-700 px-4 py-2 text-sm font-medium" disabled="">
-                            Locked
+                         <button class="!rounded-button module-btn bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700" onclick="location.href='../css module/module6videopage.html'">
+                            <span class="flex items-center">
+                                <i class="fas fa-play-circle mr-2"></i>
+                                Start Module
+                            </span>
                         </button>
                     </div>
                     <span class="text-gray-400"><i class="fas fa-sitemap text-2xl"></i></span>

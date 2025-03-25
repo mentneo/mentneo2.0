@@ -13,6 +13,213 @@
         src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
     <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#2563EB"
         data-border-radius="small"></script>
+    <style>
+        /* Mobile menu styles */t 
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            max-width: 300px;
+            background: white;
+            z-index: 50;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .dark-mode {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+
+        .dark-mode .bg-white {
+            background-color: #2d2d2d;
+            color: #ffffff;
+        }
+
+        .dark-mode .text-gray-900 {
+            color: #ffffff;
+        }
+
+        .dark-mode .text-gray-600 {
+            color: #a0aec0;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
+
+            aside {
+                display: none;
+            }
+
+            .flex-1.flex {
+                flex-direction: column;
+            }
+
+            .aspect-w-16 {
+                padding-bottom: 56.25%;
+                position: relative;
+            }
+
+            .aspect-w-16 iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .module-topics-mobile {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 1rem;
+                box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+                z-index: 50;
+                border-top-left-radius: 1rem;
+                border-top-right-radius: 1rem;
+                max-height: 60vh;
+                overflow-y: auto;
+            }
+
+            .module-topics-mobile .space-y-2 {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+
+            aside {
+                display: none;
+            }
+
+            main {
+                padding-bottom: 8rem;
+            }
+
+            .dark-mode .module-topics-mobile {
+                background: #2d2d2d;
+                border-top: 1px solid #404040;
+            }
+        }
+
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .fixed.inset-y-0.left-0.w-64 {
+                display: none; /* Hide left sidebar */
+            }
+
+            main {
+                margin-left: 0 !important; /* Remove left margin */
+            }
+
+            .ml-64 {
+                margin-left: 0 !important;
+            }
+
+            .max-w-8xl {
+                padding: 0 1rem;
+            }
+
+            .video-container {
+                position: sticky;
+                top: 0;
+                z-index: 30;
+                background: white;
+                margin: -1rem -1rem 1rem -1rem;
+            }
+
+            .aspect-w-16.aspect-h-9 {
+                margin-bottom: 0;
+            }
+
+            /* Bottom sheet for module topics */
+            .module-topics {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 1rem;
+                box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+                border-top-left-radius: 1rem;
+                border-top-right-radius: 1rem;
+                transform: translateY(calc(100% - 50px));
+                transition: transform 0.3s ease;
+                z-index: 40;
+            }
+
+            .module-topics.expanded {
+                transform: translateY(0);
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+
+            .module-topics-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+            }
+
+            .module-topics-toggle {
+                padding: 0.5rem;
+                transition: transform 0.3s ease;
+            }
+
+            .module-topics.expanded .module-topics-toggle {
+                transform: rotate(180deg);
+            }
+
+            /* Hide desktop sidebar */
+            aside.w-80 {
+                display: none;
+            }
+        }
+    </style>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Learn HTML fundamentals with Mentneo's comprehensive HTML module. Master HTML elements, document structure, and web page creation." />
+    <meta name="keywords" content="HTML tutorial, learn HTML, web development, HTML basics, HTML5, coding" />
+    <meta name="author" content="Mentneo Learning Platform" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="HTML Module 1 - Introduction to HTML | Mentneo" />
+    <meta property="og:description" content="Start your web development journey with HTML basics. Learn document structure, elements, and tags." />
+    <meta property="og:image" content="https://mentneo.com/images/html-module-og.png" />
+    <meta property="og:url" content="https://mentneo.com/modules/html-module/module1" />
+    <meta property="og:type" content="article" />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LearningResource",
+        "name": "HTML Module 1 - Introduction",
+        "description": "Introduction to HTML basics and fundamentals",
+        "educationalLevel": "Beginner",
+        "learningResourceType": "Video Tutorial",
+        "timeRequired": "PT1H",
+        "isPartOf": {
+            "@type": "Course",
+            "name": "Frontend Development Path",
+            "provider": {
+                "@type": "Organization",
+                "name": "Mentneo Learning Platform"
+            }
+        }
+    }
+    </script>
 </head>
 
 <body class="bg-gray-50 font-[&#39;Inter&#39;]">
@@ -34,9 +241,24 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Add dark mode toggle -->
+                    <button id="darkModeToggle" class="p-2 ml-4">
+                        <i class="fas fa-moon text-gray-600"></i>
+                    </button>
                 </div>
             </div>
         </nav>
+
+        <!-- Add the new mobile topics view -->
+        <div class="module-topics-mobile md:hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold">Module Topics</h2>
+            </div>
+            <div class="space-y-2">
+                <!-- Topics will be populated by JS -->
+            </div>
+        </div>
+
         <div class="flex-1 flex">
             <main class="flex-1 overflow-y-auto bg-white p-8">
                 <div class="max-w-8xl mx-auto">
@@ -50,8 +272,8 @@
                                 <i class="fas fa-arrow-left mr-2"></i>
                                 Previous
                             </button>
-                            <button class="!rounded-button px-4 py-2 bg-blue-600 text-white hover:bg-blue-700">
-                                Next
+                            <button id="nextButton" class="!rounded-button btn-primary px-4 py-2 bg-blue-600 text-white hover:bg-blue-700">
+                                Next Module
                                 <i class="fas fa-arrow-right ml-2"></i>
                             </button>
                         </div>
@@ -81,7 +303,7 @@
                     <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
                         <h3 class="text-lg font-semibold mb-4">Assignment - 1</h3>
                         <p class="text-gray-600 mb-6">Create a simple HTML page that includes a heading, paragraph, and an image. Submit your code below.</p>
-                        <button class="!rounded-button bg-blue-600 text-white px-6 py-2 font-medium hover:bg-blue-700 transition-colors" onclick="location.href='assignmenntpage.html'">
+                        <button class="!rounded-button bg-blue-600 text-white px-6 py-2 font-medium hover:bg-blue-700 transition-colors" onclick="location.href='../../assignmenntpage.html'">
                             Start Assignment
                         </button>
                     </div>
@@ -111,15 +333,30 @@
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50">
                             6. Forms and Input
                         </button>
+                        <button class="!rounded-button bg-blue-600 text-white px-6 py-2 font-medium hover:bg-blue-700 transition-colors" onclick="location.href='../../assignmenntpage.html'">
+                            7.ass
+                        </button>
                     </div>
                 </div>
             </aside>
+            <a href=""></a>
         </div>
         <footer class="bg-white border-t border-gray-200">
             <div class="max-w-8xl mx-auto px-4 py-4 flex items-center justify-between">
                 <!-- Remove navigation buttons from footer -->
             </div>
         </footer>
+    </div>
+    <div class="module-topics md:hidden">
+        <div class="module-topics-header">
+            <h3 class="font-semibold">Module Topics</h3>
+            <button class="module-topics-toggle">
+                <i class="fas fa-chevron-up"></i>
+            </button>
+        </div>
+        <div class="module-topics-content">
+            <!-- Will be populated by JS -->
+        </div>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -130,7 +367,7 @@
             let completedTopics = JSON.parse(localStorage.getItem('completedTopics')) || [];
 
             const videoLinks = [
-                "https://www.youtube.com/embed/Yh9OXmldCIY",  // Introduction to HTML
+                "https://www.youtube.com/embed/Kx26KPiHDtw?si=piptbOT733fD1Fy9",  // Introduction to HTML
                 "https://www.youtube.com/embed/WnKmbFhENUg",  // HTML Elements
                 "https://www.youtube.com/embed/150EzogAp_c",  // Text Formatting
                 "https://www.youtube.com/embed/Yh9OXmldCIY",  // Links and Images
@@ -200,6 +437,15 @@
                         nextButton.disabled = false;
                         nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
                     }
+                }
+
+                // Check if all topics in module are completed
+                const allTopicsCompleted = Array.from(buttons).every(btn => 
+                    btn.querySelector('.fa-check-circle')
+                );
+                
+                if (allTopicsCompleted) {
+                    markModuleAsCompleted();
                 }
             }
 
@@ -331,14 +577,226 @@
                         currentVideoIndex = currentIndex - 1;
                         buttons[currentVideoIndex].click();
                     } else {
-                        location.href = 'modulespage.html';
+                        location.href = '../main pages/modulespagehtml.html';
                     }
                 } else {
-                    location.href = 'modulespage.html';
+                    location.href = '../main pages/modulespagehtml.html';
                 }
             });
 
             loadFromLocalStorage();
+
+            // Replace mobile menu functionality with new mobile topics view
+            const mobileTopicsContainer = document.querySelector('.module-topics-mobile .space-y-2');
+            
+            // Clone sidebar buttons for mobile view
+            const sidebarButtons = document.querySelectorAll("aside .space-y-2 button");
+            sidebarButtons.forEach(button => {
+                const clone = button.cloneNode(true);
+                mobileTopicsContainer.appendChild(clone);
+                clone.addEventListener('click', function() {
+                    // Find the corresponding desktop button and trigger its click
+                    const index = Array.from(sidebarButtons).indexOf(button);
+                    sidebarButtons[index].click();
+                });
+            });
+
+            // Dark mode toggle
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+            function toggleDarkMode() {
+                document.body.classList.toggle('dark-mode');
+                const isDark = document.body.classList.contains('dark-mode');
+                localStorage.setItem('darkMode', isDark);
+                darkModeToggle.innerHTML = `<i class="fas fa-${isDark ? 'sun' : 'moon'} text-gray-600"></i>`;
+            }
+
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun text-gray-600"></i>';
+            }
+
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+
+            // Performance optimizations
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+
+            // Optimize scroll performance
+            const debouncedScroll = debounce(() => {
+                // Handle scroll events
+            }, 16);
+
+            window.addEventListener('scroll', debouncedScroll);
+
+            // Lazy load images
+            const images = document.querySelectorAll('img[data-src]');
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+
+            images.forEach(img => imageObserver.observe(img));
+        });
+
+        function markModuleAsCompleted() {
+            const completedModules = JSON.parse(localStorage.getItem('completedModules')) || [];
+            const currentModule = parseInt(new URLSearchParams(window.location.search).get('module') || '0');
+            
+            if (!completedModules.includes(currentModule)) {
+                completedModules.push(currentModule);
+                localStorage.setItem('completedModules', JSON.stringify(completedModules));
+                
+                // Add completion UI feedback
+                showCompletionMessage();
+            }
+        }
+
+        function showCompletionMessage() {
+            const message = document.createElement('div');
+            message.className = 'fixed top-4 right-4 bg-green-100 text-green-800 px-6 py-3 rounded-lg shadow-lg';
+            message.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                    <span>Module completed! Ready for next module.</span>
+                </div>
+            `;
+            document.body.appendChild(message);
+            setTimeout(() => message.remove(), 3000);
+        }
+
+        // Update next button click handler
+        const nextButton = document.getElementById('nextButton');
+        nextButton.addEventListener('click', function() {
+            const completedTopics = JSON.parse(localStorage.getItem('completedTopics')) || [];
+            const completedModules = JSON.parse(localStorage.getItem('completedModules')) || [];
+            const currentModule = parseInt(new URLSearchParams(window.location.search).get('module') || '0');
+            
+            if (completedTopics.length === 6) { // All topics in current module completed
+                // Mark current module as completed
+                if (!completedModules.includes(currentModule)) {
+                    completedModules.push(currentModule);
+                    localStorage.setItem('completedModules', JSON.stringify(completedModules));
+                }
+                
+                // Navigate to next module
+                const nextModule = currentModule + 1;
+                window.location.href = `module${nextModule + 1}videopage.html?module=${nextModule}`;
+            } else {
+                // Show warning message
+                const warningMessage = document.createElement('div');
+                warningMessage.className = 'fixed top-4 right-4 bg-yellow-100 text-yellow-800 px-6 py-3 rounded-lg shadow-lg';
+                warningMessage.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>
+                        <span>Please complete all topics in this module first</span>
+                    </div>
+                `;
+                document.body.appendChild(warningMessage);
+                setTimeout(() => warningMessage.remove(), 3000);
+            }
+        });
+
+        // Remove duplicate event listeners for btn-primary
+        // Remove these lines:
+        // document.querySelector('button.btn-primary').addEventListener...
+        // The duplicate event listener for btn-primary
+
+        function checkModuleCompletion() {
+            const allTopicsCompleted = completedTopics.length === 6; // All 6 topics must be completed
+            
+            if (allTopicsCompleted) {
+                markModuleAsCompleted();
+                
+                // Show completion message and enable next module button
+                const completionMessage = document.createElement('div');
+                completionMessage.className = 'bg-green-100 text-green-800 p-4 rounded-lg mb-4';
+                completionMessage.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                        <span>Module completed! You can now proceed to Module 2.</span>
+                    </div>
+                `;
+                document.querySelector('.main-content').insertBefore(
+                    completionMessage,
+                    document.querySelector('.bg-white.rounded-lg')
+                );
+            }
+        }
+
+        // Update markTopicAsCompletedWithIcon function
+        function markTopicAsCompletedWithIcon(button) {
+            // ...existing code...
+            
+            // Check module completion after marking topic
+            checkModuleCompletion();
+        }
+
+        // Update navigation to next module
+        document.querySelector('button.btn-primary').addEventListener('click', function() {
+            const completedModules = JSON.parse(localStorage.getItem('completedModules')) || [];
+            const currentModule = 0; // Module 1 index
+            
+            if (completedModules.includes(currentModule)) {
+                window.location.href = '../html module/module2videopage.html';
+            } else {
+                alert('Please complete all topics in this module first.');
+            }
+        });
+
+        document.querySelector('button.btn-primary').addEventListener('click', function() {
+            const completedModules = JSON.parse(localStorage.getItem('completedModules')) || [];
+            const currentModule = 0; // Module 1 index
+            
+            if (completedModules.includes(currentModule)) {
+                window.location.href = '../html module/module2videopage.html';
+            } else {
+                alert('Please complete all topics in this module first.');
+            }
+        });
+
+        // Mobile topics panel functionality
+        const moduleTopics = document.querySelector('.module-topics');
+        const topicsToggle = document.querySelector('.module-topics-toggle');
+        const topicsContent = document.querySelector('.module-topics-content');
+
+        // Clone desktop topics for mobile
+        const desktopTopics = document.querySelectorAll('aside .space-y-2 button');
+        desktopTopics.forEach(topic => {
+            const clone = topic.cloneNode(true);
+            topicsContent.appendChild(clone);
+            
+            clone.addEventListener('click', () => {
+                const index = Array.from(desktopTopics).indexOf(topic);
+                desktopTopics[index].click();
+            });
+        });
+
+        topicsToggle.addEventListener('click', () => {
+            moduleTopics.classList.toggle('expanded');
+        });
+
+        // Hide topics panel when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!moduleTopics.contains(e.target) && moduleTopics.classList.contains('expanded')) {
+                moduleTopics.classList.remove('expanded');
+            }
         });
     </script>
 </body>
