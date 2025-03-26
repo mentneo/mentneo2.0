@@ -235,9 +235,7 @@
                         <button class="!rounded-button w-full text-left px-4 py-3 bg-gray-100 text-gray-700 hover:bg-blue-50">
                             7.List Types – Ordered Lists
                         </button>
-                        <button class="!rounded-button bg-blue-600 text-white px-6 py-2 font-medium hover:bg-blue-700 transition-colors" onclick="location.href='../../assignmenthtml03.html'">
-                            8.Assignments
-                        </button>
+                        
                     </div>
                 </div>
             </aside>
@@ -578,18 +576,21 @@
         nextButton.addEventListener('click', function() {
             const completedTopics = JSON.parse(localStorage.getItem('completedTopics')) || [];
             const completedModules = JSON.parse(localStorage.getItem('completedModules')) || [];
-            const currentModule = parseInt(new URLSearchParams(window.location.search).get('module') || '0');
+            const currentModule = parseInt(new URLSearchParams(window.location.search).get('module') || '2');
             
-            if (completedTopics.length === 6) { // All topics in current module completed
+            if (completedTopics.length >= 5) { // Changed from "=== 5" to ">= 5" to match our requirement
                 // Mark current module as completed
                 if (!completedModules.includes(currentModule)) {
                     completedModules.push(currentModule);
                     localStorage.setItem('completedModules', JSON.stringify(completedModules));
+                    
+                    // Add completion animation
+                    showCompletionAnimation();
                 }
                 
-                // Navigate to next module
+                // Navigate to next module - fix the URL format
                 const nextModule = currentModule + 1;
-                window.location.href = `module${nextModule + 1}videopage.html?module=${nextModule}`;
+                window.location.href = `module${nextModule}videopage.html?module=${nextModule}`;
             } else {
                 // Show warning message
                 const warningMessage = document.createElement('div');
@@ -597,7 +598,7 @@
                 warningMessage.innerHTML = `
                     <div class="flex items-center">
                         <i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>
-                        <span>Please complete all topics in this module first</span>
+                        <span>Please complete at least 5 topics in this module first</span>
                     </div>
                 `;
                 document.body.appendChild(warningMessage);
@@ -605,13 +606,47 @@
             }
         });
 
-        // Remove duplicate event listeners for btn-primary
-        // Remove these lines:
-        // document.querySelector('button.btn-primary').addEventListener...
-        // The duplicate event listener for btn-primary
+        // Add a smooth completion animation
+        function showCompletionAnimation() {
+            const animation = document.createElement('div');
+            animation.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0';
+            animation.style.transition = 'opacity 0.3s ease';
+            
+            const content = document.createElement('div');
+            content.className = 'bg-white rounded-lg p-6 max-w-md transform scale-95 opacity-0';
+            content.style.transition = 'all 0.3s ease';
+            content.innerHTML = `
+                <div class="text-center">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-500 mb-4">
+                        <i class="fas fa-check text-2xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">Module Completed!</h2>
+                    <p class="text-gray-600 mb-6">Moving to next module...</p>
+                </div>
+            `;
+            
+            animation.appendChild(content);
+            document.body.appendChild(animation);
+            
+            // Trigger animations
+            setTimeout(() => {
+                animation.style.opacity = '1';
+                content.style.transform = 'scale(1)';
+                content.style.opacity = '1';
+            }, 10);
+            
+            // Auto-remove after delay
+            setTimeout(() => {
+                animation.style.opacity = '0';
+                content.style.opacity = '0';
+                content.style.transform = 'scale(0.95)';
+                setTimeout(() => animation.remove(), 300);
+            }, 1500);
+        }
 
         function checkModuleCompletion() {
-            const allTopicsCompleted = completedTopics.length === 6; // All 6 topics must be completed
+            const completedTopics = JSON.parse(localStorage.getItem('completedTopics')) || [];
+            const allTopicsCompleted = completedTopics.length >= 5; // Changed to match our requirement of 5 topics
             
             if (allTopicsCompleted) {
                 markModuleAsCompleted();
@@ -622,7 +657,7 @@
                 completionMessage.innerHTML = `
                     <div class="flex items-center">
                         <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                        <span>Module completed! You can now proceed to Module 2.</span>
+                        <span>Module completed! You can now proceed to Module 4.</span>
                     </div>
                 `;
                 document.querySelector('.main-content').insertBefore(
@@ -632,36 +667,9 @@
             }
         }
 
-        // Update markTopicAsCompletedWithIcon function
-        function markTopicAsCompletedWithIcon(button) {
-            // ...existing code...
-            
-            // Check module completion after marking topic
-            checkModuleCompletion();
-        }
-
-        // Update navigation to next module
-        document.querySelector('button.btn-primary').addEventListener('click', function() {
-            const completedModules = JSON.parse(localStorage.getItem('completedModules')) || [];
-            const currentModule = 0; // Module 1 index
-            
-            if (completedModules.includes(currentModule)) {
-                window.location.href = '../html module/module3videopage.html';
-            } else {
-                alert('Please complete all topics in this module first.');
-            }
-        });
-
-        document.querySelector('button.btn-primary').addEventListener('click', function() {
-            const completedModules = JSON.parse(localStorage.getItem('completedModules')) || [];
-            const currentModule = 0; // Module 1 index
-            
-            if (completedModules.includes(currentModule)) {
-                window.location.href = '../html module/module3videopage.html';
-            } else {
-                alert('Please complete all topics in this module first.');
-            }
-        });
+        // Remove duplicate event listeners for Next Module button - DO NOT ADD THESE BACK
+        // document.querySelector('button.btn-primary').addEventListener('click', function() {...});
+        // document.querySelector('button.btn-primary').addEventListener('click', function() {...});
     </script>
 </body>
 </html>

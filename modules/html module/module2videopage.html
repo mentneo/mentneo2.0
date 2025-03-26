@@ -548,14 +548,15 @@
                 completedModules.push(currentModule);
                 localStorage.setItem('completedModules', JSON.stringify(completedModules));
                 
-                // Add completion UI feedback
+                // Add completion UI feedback with improved animation
                 showCompletionMessage();
             }
         }
 
         function showCompletionMessage() {
             const message = document.createElement('div');
-            message.className = 'fixed top-4 right-4 bg-green-100 text-green-800 px-6 py-3 rounded-lg shadow-lg';
+            message.className = 'fixed top-4 right-4 bg-green-100 text-green-800 px-6 py-3 rounded-lg shadow-lg transform translate-x-10 opacity-0';
+            message.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
             message.innerHTML = `
                 <div class="flex items-center">
                     <i class="fas fa-check-circle text-green-500 mr-2"></i>
@@ -563,7 +564,19 @@
                 </div>
             `;
             document.body.appendChild(message);
-            setTimeout(() => message.remove(), 3000);
+            
+            // Trigger animation
+            setTimeout(() => {
+                message.style.transform = 'translateX(0)';
+                message.style.opacity = '1';
+            }, 10);
+            
+            // Remove after delay with exit animation
+            setTimeout(() => {
+                message.style.transform = 'translateY(-10px)';
+                message.style.opacity = '0';
+                setTimeout(() => message.remove(), 400);
+            }, 3000);
         }
 
         // Update next button click handler
@@ -573,64 +586,97 @@
             const completedModules = JSON.parse(localStorage.getItem('completedModules')) || [];
             const currentModule = parseInt(new URLSearchParams(window.location.search).get('module') || '0');
             
-            if (completedTopics.length === 6) { // All topics in current module completed
+            if (completedTopics.length >= 5) { // Changed from "=== 6" to ">= 5"
                 // Mark current module as completed
                 if (!completedModules.includes(currentModule)) {
                     completedModules.push(currentModule);
                     localStorage.setItem('completedModules', JSON.stringify(completedModules));
                 }
                 
-                // Navigate to next module
-                const nextModule = currentModule + 1;
-                window.location.href = `module${nextModule + 1}videopage.html?module=${nextModule}`;
+                // Navigate to next module with transition effect
+                fadeOutAndNavigate(`module${currentModule + 2}videopage.html?module=${currentModule + 1}`);
             } else {
                 // Show warning message
-                const warningMessage = document.createElement('div');
-                warningMessage.className = 'fixed top-4 right-4 bg-yellow-100 text-yellow-800 px-6 py-3 rounded-lg shadow-lg';
-                warningMessage.innerHTML = `
-                    <div class="flex items-center">
-                        <i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>
-                        <span>Please complete all topics in this module first</span>
-                    </div>
-                `;
-                document.body.appendChild(warningMessage);
-                setTimeout(() => warningMessage.remove(), 3000);
+                showSmoothWarningMessage('Please complete at least 5 topics in this module first');
             }
         });
 
-        // Remove duplicate event listeners for btn-primary
-        // Remove these lines:
-        // document.querySelector('button.btn-primary').addEventListener...
-        // The duplicate event listener for btn-primary
+        // Function to fade out and navigate
+        function fadeOutAndNavigate(url) {
+            // Add a fullscreen overlay for smooth transition
+            const overlay = document.createElement('div');
+            overlay.className = 'fixed inset-0 bg-white z-50 opacity-0';
+            overlay.style.transition = 'opacity 0.5s ease';
+            document.body.appendChild(overlay);
+            
+            setTimeout(() => {
+                overlay.style.opacity = '1';
+                setTimeout(() => window.location.href = url, 500);
+            }, 10);
+        }
 
+        // Add smooth warning message function
+        function showSmoothWarningMessage(message) {
+            const warningMessage = document.createElement('div');
+            warningMessage.className = 'fixed top-4 right-4 bg-yellow-100 text-yellow-800 px-6 py-3 rounded-lg shadow-lg opacity-0 transform translate-y-[-10px]';
+            warningMessage.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(warningMessage);
+            
+            // Trigger animation
+            setTimeout(() => {
+                warningMessage.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                warningMessage.style.opacity = '1';
+                warningMessage.style.transform = 'translateY(0)';
+            }, 10);
+            
+            // Remove after delay with exit animation
+            setTimeout(() => {
+                warningMessage.style.opacity = '0';
+                warningMessage.style.transform = 'translateY(-10px)';
+                setTimeout(() => warningMessage.remove(), 300);
+            }, 3000);
+        }
+
+        // Update the checkModuleCompletion function
         function checkModuleCompletion() {
-            const allTopicsCompleted = completedTopics.length === 6; // All 6 topics must be completed
+            const completedTopics = JSON.parse(localStorage.getItem('completedTopics')) || [];
+            const allTopicsCompleted = completedTopics.length >= 5; // Changed from requiring all to requiring 5 topics
             
             if (allTopicsCompleted) {
                 markModuleAsCompleted();
                 
-                // Show completion message and enable next module button
-                const completionMessage = document.createElement('div');
-                completionMessage.className = 'bg-green-100 text-green-800 p-4 rounded-lg mb-4';
-                completionMessage.innerHTML = `
-                    <div class="flex items-center">
-                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                        <span>Module completed! You can now proceed to Module 2.</span>
+                // Show a subtle notification that the next module is unlocked
+                const moduleUnlockedNotification = document.createElement('div');
+                moduleUnlockedNotification.className = 'fixed bottom-4 left-4 bg-blue-600 text-white px-4 py-3 rounded-lg shadow-lg transform translate-y-10 opacity-0 flex items-center';
+                moduleUnlockedNotification.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
+                moduleUnlockedNotification.innerHTML = `
+                    <div class="rounded-full bg-white p-2 mr-3">
+                        <i class="fas fa-unlock-alt text-blue-600"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-sm">Next module unlocked</h4>
+                        <p class="text-xs text-blue-200">You've completed enough topics to proceed</p>
                     </div>
                 `;
-                document.querySelector('.main-content').insertBefore(
-                    completionMessage,
-                    document.querySelector('.bg-white.rounded-lg')
-                );
+                document.body.appendChild(moduleUnlockedNotification);
+                
+                // Show the notification with animation
+                setTimeout(() => {
+                    moduleUnlockedNotification.style.transform = 'translateY(0)';
+                    moduleUnlockedNotification.style.opacity = '1';
+                    
+                    setTimeout(() => {
+                        moduleUnlockedNotification.style.transform = 'translateY(10px)';
+                        moduleUnlockedNotification.style.opacity = '0';
+                        setTimeout(() => moduleUnlockedNotification.remove(), 400);
+                    }, 4000);
+                }, 500);
             }
-        }
-
-        // Update markTopicAsCompletedWithIcon function
-        function markTopicAsCompletedWithIcon(button) {
-            // ...existing code...
-            
-            // Check module completion after marking topic
-            checkModuleCompletion();
         }
 
         // Update navigation to next module

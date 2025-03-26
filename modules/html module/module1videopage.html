@@ -722,55 +722,133 @@
             const completedModules = JSON.parse(localStorage.getItem('completedModules')) || [];
             const currentModule = parseInt(new URLSearchParams(window.location.search).get('module') || '0');
             
-            if (completedTopics.length === 6) { // All topics in current module completed
+            // Changed from checking all topics to checking if at least 5 are completed
+            if (completedTopics.length >= 5) { // Changed from "=== 6" to ">= 5"
                 // Mark current module as completed
                 if (!completedModules.includes(currentModule)) {
                     completedModules.push(currentModule);
                     localStorage.setItem('completedModules', JSON.stringify(completedModules));
+                    
+                    // Show a smoother completion animation
+                    showModuleCompletionAnimation();
                 }
                 
                 // Navigate to next module
                 const nextModule = currentModule + 1;
                 window.location.href = `module${nextModule + 1}videopage.html?module=${nextModule}`;
             } else {
-                // Show warning message
-                const warningMessage = document.createElement('div');
-                warningMessage.className = 'fixed top-4 right-4 bg-yellow-100 text-yellow-800 px-6 py-3 rounded-lg shadow-lg';
-                warningMessage.innerHTML = `
-                    <div class="flex items-center">
-                        <i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>
-                        <span>Please complete all topics in this module first</span>
-                    </div>
-                `;
-                document.body.appendChild(warningMessage);
-                setTimeout(() => warningMessage.remove(), 3000);
+                // Show warning message with smoother animation
+                showSmoothWarningMessage('Please complete at least 5 topics in this module first');
             }
         });
 
-        // Remove duplicate event listeners for btn-primary
-        // Remove these lines:
-        // document.querySelector('button.btn-primary').addEventListener...
-        // The duplicate event listener for btn-primary
+        // Add smooth warning message function
+        function showSmoothWarningMessage(message) {
+            const warningMessage = document.createElement('div');
+            warningMessage.className = 'fixed top-4 right-4 bg-yellow-100 text-yellow-800 px-6 py-3 rounded-lg shadow-lg opacity-0 transform translate-x-10';
+            warningMessage.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(warningMessage);
+            
+            // Trigger animation
+            setTimeout(() => {
+                warningMessage.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                warningMessage.style.opacity = '1';
+                warningMessage.style.transform = 'translateX(0)';
+            }, 10);
+            
+            // Remove after delay
+            setTimeout(() => {
+                warningMessage.style.opacity = '0';
+                warningMessage.style.transform = 'translateX(10px)';
+                setTimeout(() => warningMessage.remove(), 300);
+            }, 3000);
+        }
+
+        // Add smooth completion animation
+        function showModuleCompletionAnimation() {
+            // Create the completion overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0';
+            overlay.style.transition = 'opacity 0.5s ease';
+            
+            const content = document.createElement('div');
+            content.className = 'bg-white rounded-lg p-8 max-w-md transform scale-95 opacity-0';
+            content.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+            content.innerHTML = `
+                <div class="text-center">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-500 mb-4">
+                        <i class="fas fa-check text-2xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">Module Completed!</h2>
+                    <p class="text-gray-600 mb-6">Congratulations! You've completed enough topics to unlock the next module.</p>
+                    <div class="flex justify-center">
+                        <button id="continueBtn" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                            Continue to Next Module
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            overlay.appendChild(content);
+            document.body.appendChild(overlay);
+            
+            // Trigger animations
+            setTimeout(() => {
+                overlay.style.opacity = '1';
+                content.style.transform = 'scale(1)';
+                content.style.opacity = '1';
+            }, 10);
+            
+            // Handle continue button
+            content.querySelector('#continueBtn').addEventListener('click', () => {
+                content.style.transform = 'scale(0.95)';
+                content.style.opacity = '0';
+                overlay.style.opacity = '0';
+                
+                const currentModule = parseInt(new URLSearchParams(window.location.search).get('module') || '0');
+                const nextModule = currentModule + 1;
+                
+                setTimeout(() => {
+                    window.location.href = `module${nextModule + 1}videopage.html?module=${nextModule}`;
+                }, 500);
+            });
+        }
 
         function checkModuleCompletion() {
-            const allTopicsCompleted = completedTopics.length === 6; // All 6 topics must be completed
+            const completedTopics = JSON.parse(localStorage.getItem('completedTopics')) || [];
+            const allTopicsCompleted = completedTopics.length >= 5; // Changed from "=== 6" to ">= 5"
             
             if (allTopicsCompleted) {
                 markModuleAsCompleted();
                 
-                // Show completion message and enable next module button
+                // Show unobtrusive completion notification
                 const completionMessage = document.createElement('div');
-                completionMessage.className = 'bg-green-100 text-green-800 p-4 rounded-lg mb-4';
+                completionMessage.className = 'bg-green-100 text-green-800 p-4 rounded-lg mb-4 transform transition-all duration-500 ease-in-out';
+                completionMessage.style.opacity = '0';
+                completionMessage.style.transform = 'translateY(-20px)';
                 completionMessage.innerHTML = `
                     <div class="flex items-center">
                         <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                        <span>Module completed! You can now proceed to Module 2.</span>
+                        <span>You've completed 5 topics! Next module is now available.</span>
                     </div>
                 `;
-                document.querySelector('.main-content').insertBefore(
-                    completionMessage,
-                    document.querySelector('.bg-white.rounded-lg')
-                );
+                
+                // Find where to insert the message
+                const mainContent = document.querySelector('.max-w-8xl.mx-auto');
+                if (mainContent) {
+                    mainContent.insertBefore(completionMessage, mainContent.firstChild);
+                    
+                    // Trigger animation
+                    setTimeout(() => {
+                        completionMessage.style.opacity = '1';
+                        completionMessage.style.transform = 'translateY(0)';
+                    }, 100);
+                }
             }
         }
 
